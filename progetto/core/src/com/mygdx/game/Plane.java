@@ -1,27 +1,21 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.mygdx.coreGame.Sprite;
 
 public class Plane extends GameObject{
 
     Sprite sprite;
     Plane(){
         super();
-        sprite = new Sprite(new Texture("stealth_plane.png"));
-        setWidth(3);
-        setOffsetX(-1.5f);
-		setOffsetY(-0.55f);
-
-        
-        setRadius(0.4f);
-        setbarycentre(0.1f, 0.4f);
+        sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_PLANE));
+		setWidth(0.5f);
+        setHeight(0.5f);
     }
 
 
     public void update(){
+        this.setY(this.getY()-0.005f);
     }
     
 
@@ -35,11 +29,23 @@ public class Plane extends GameObject{
     public void setX(float x) {
         super.setX(x);
         sprite.setX(x);
+        
     }
     @Override
     public void setY(float y) {
+        sprite.setY(y);
         super.setY(y);
-        sprite.setX(x);
+        
+    }
+    @Override
+    public void setWidth(float width) {
+        super.setWidth(width);
+        sprite.setWidth(width);
+    }
+    @Override
+    public void setHeight(float height) {
+        super.setHeight(height);
+        sprite.setHeight(height);
     }
 
     @Override

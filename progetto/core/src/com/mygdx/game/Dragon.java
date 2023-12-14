@@ -1,17 +1,17 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.AnimatedSprite;
-import com.mygdx.coreGame.Sprite;
 
 public class Dragon extends GameObject{
+    
     AnimatedSprite sprite;
     Dragon(){
         super();
         sprite = new AnimatedSprite(ResourceLoader.getAnimation(ResourceEnum.DRAGON));
-        sprite.setWidth(1f);
-        setRadius(getWidth()/2);
+        this.setX(0f);
+		this.setY(0);
+		this.setWidth(1f);
     }
     @Override
     public void manageCollisionWith(GameObject obj) {
@@ -47,10 +47,12 @@ public class Dragon extends GameObject{
     @Override
     public void setWidth(float width) {
         super.setWidth(width);
+        sprite.setWidth(width);
     }
     @Override
     public void setHeight(float height) {
         super.setHeight(height);
+        sprite.setHeight(height);
     }
     
 }

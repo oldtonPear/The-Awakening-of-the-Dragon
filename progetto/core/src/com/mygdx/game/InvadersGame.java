@@ -30,11 +30,13 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 		batch = new SpriteBatch();
 
 		planes = new Plane[20];
-
+		for (int i = 0; i < planes.length; i++) {
+			planes[i] = new Plane();
+			planes[i].setY((float)(3.5+Math.random()*30));
+			planes[i].setX((float)(Math.random()*3));
+		}
 		dragon = new Dragon();
-		dragon.setX(0f);
-		dragon.setY(0);
-		dragon.setWidth(1f);
+		
 	}
 
 	@Override
@@ -49,11 +51,10 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 		dragon.update();
 		dragon.draw(batch);
 
-		/*for (int i = 0; i < planes.length-1; i++) {
-			planes[i].setY(planes[i].getY()-1);
- 			planes[i].draw(batch);
-			if(planes[i].getY()<-80) planes[i].setY((float)Math.random()*500+500);
-		}*/
+		for (int i = 0; i < planes.length; i++) {
+			planes[i].update();
+			planes[i].draw(batch);
+		}
 		batch.end();
 	}
 	
