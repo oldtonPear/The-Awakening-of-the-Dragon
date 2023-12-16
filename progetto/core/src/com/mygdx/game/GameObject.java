@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.GraphicObject;
 
@@ -92,5 +93,7 @@ public abstract class GameObject extends GraphicObject{
     public abstract void manageCollisionWith(GameObject obj);
 
     public abstract void update();
+
+    public abstract void draw(SpriteBatch sb);
 
 }

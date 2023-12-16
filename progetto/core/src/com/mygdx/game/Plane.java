@@ -6,6 +6,7 @@ import com.mygdx.coreGame.Sprite;
 public class Plane extends GameObject{
 
     Sprite sprite;
+
     Plane(){
         super();
         sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_PLANE));
@@ -13,18 +14,6 @@ public class Plane extends GameObject{
         setHeight(0.5f);
     }
 
-
-    public void update(){
-        this.setY(this.getY()-0.005f);
-    }
-    
-
-    @Override
-    public void manageCollisionWith(GameObject obj) {
-        if(obj instanceof Dragon){
-            System.out.println("COLLISIONE!");
-        }
-    }
     @Override
     public void setX(float x) {
         super.setX(x);
@@ -54,5 +43,15 @@ public class Plane extends GameObject{
 
         //Vector2 pb = getWorldBarycentre();
         //b.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
+    }
+    public void update(){
+        this.setY(this.getY()-0.005f);
+    }
+    
+    @Override
+    public void manageCollisionWith(GameObject obj) {
+        if(obj instanceof Dragon){
+            System.out.println("COLLISIONE!");
+        }
     }
 }
