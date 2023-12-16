@@ -1,17 +1,21 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.Sprite;
 
 public class Plane extends GameObject{
 
-    Sprite sprite;
+    private Sprite sprite;
 
     Plane(){
         super();
         sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_PLANE));
 		setWidth(0.5f);
         setHeight(0.5f);
+
+        setRadius(0.2f);
+        setbarycentre(0.22f, 0.26f);
     }
 
     @Override
@@ -41,11 +45,12 @@ public class Plane extends GameObject{
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
 
-        //Vector2 pb = getWorldBarycentre();
-        //b.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
+        Vector2 pb = getWorldBarycentre();
+        //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
+
     public void update(){
-        this.setY(this.getY()-0.005f);
+        this.setY(this.getY()-0.01f);
     }
     
     @Override

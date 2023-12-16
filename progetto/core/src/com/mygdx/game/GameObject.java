@@ -3,8 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.GraphicObject;
+import com.mygdx.coreGame.Updateable;
 
-public abstract class GameObject extends GraphicObject{
+public abstract class GameObject extends GraphicObject implements Updateable{
 
     protected Vector2 velocity;
 

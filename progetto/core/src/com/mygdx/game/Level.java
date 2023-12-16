@@ -2,143 +2,87 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.coreGame.Drawalble;
+import com.mygdx.coreGame.Parameters;
 
-public class Level implements Drawalble{
-    private String name;
-    private float length;
+public class Level extends Screen{
 
     private float skySpeed;
-    private float mgSpeed;
-    private float fgSpeed;
     
-    private float bx;
-    private float mx;
-    private float fx;
+    private float backgroundY;
 
     private float width;
     private float height;
     
     private Texture skyPicture;
-    private Texture bgPicture;
-    private Texture mgPicture;
-    private Texture fgPicture;
-    private Texture gPicture;
     
-    //private Knight knight;
+    
+    private Dragon dragon;
+	private Plane[] planes;
 
-    private GameObject[] objects;
-
-    /*Level(String name, float height){
+    Level(String name, float height){
         super();
-        this.name = name;
-        this.length = 0;
 
-        this.fgSpeed = -0.02f;
-        this.mgSpeed = fgSpeed * 0.5f;
-        this.skySpeed = fgSpeed * 0.25f;
+        this.skySpeed = -0.005f;
 
-        this.fx = 0;
-        this.mx = 0;
-        this.bx = 0;
+        this.backgroundY = 0;
 
         this.height = height;
         this.width = height * Parameters.getAspectRatio();
 
-        this.skyPicture = ResourceLoader.getTexture(ResourceEnum.SKY_LEVEL);
-        this.bgPicture = ResourceLoader.getTexture(ResourceEnum.BG_LEVEL);
-        this.mgPicture = ResourceLoader.getTexture(ResourceEnum.MG_LEVEL);
-        this.fgPicture = ResourceLoader.getTexture(ResourceEnum.FG_LEVEL);
-        this.gPicture = ResourceLoader.getTexture(ResourceEnum.G_LEVEL);
-
-        this.knight = null;
-        this.objects = new GameObject[100];
-
-        for (int i = 0; i < 10; i++) {
-            this.objects[i] = new Coin();
-            this.objects[i].setX(4 + (float)Math.random()*3 * i);
-            this.objects[i].setY(0.5f + (float)Math.random() * i);
-            this.objects[i].setVelocity(this.fgSpeed, 0);
-        }
+        this.skyPicture = ResourceLoader.getTexture(ResourceEnum.SKY);
+        
+        planes = new Plane[20];
+		for (int i = 0; i < planes.length; i++) {
+			planes[i] = new Plane();
+			planes[i].setY((float)(3.5+Math.random()*30));
+			planes[i].setX((float)(Math.random()*3));
+		}
+		dragon = new Dragon();
         
     }
 
     public float getSpeed() {
-        return fgSpeed;
+        return skySpeed;
     }
     public void setSpeed(float speed) {
-        this.fgSpeed = speed;
-        this.mgSpeed = fgSpeed * 0.5f;
-        this.skySpeed = fgSpeed * 0.25f;
-
-    }
-    public String getName() {
-        return name;
-    }
-    public Knight getKnight() {
-        return knight;
-    }
-    public void setKnight(Knight knight) {
-        this.knight = knight;
+        this.skySpeed = speed;
     }
 
     @Override
     public void draw(SpriteBatch sb) {
-        sb.draw(skyPicture, 0, 0, width, height);
+        sb.draw(skyPicture, 0, backgroundY, width, height);
+        sb.draw(skyPicture, 0, backgroundY + height, width, height);
 
-        sb.draw(bgPicture, bx, 0, width, height);
-        sb.draw(bgPicture, bx + width, 0, width, height);
+        dragon.update();
+		dragon.draw(sb);
 
-        sb.draw(mgPicture, mx, 0, width, height);
-        sb.draw(mgPicture, mx + width, 0, width, height);
-
-        sb.draw(fgPicture, fx, 0, width, height);
-        sb.draw(fgPicture, fx + width, 0, width, height);
-
-        if(!knight.isWalking()){
-            for (GameObject gameObject : objects) {
-                if(gameObject != null) gameObject.draw(sb);
-            }
-        }
-
-        
-        knight.draw(sb);
-
-        sb.draw(gPicture, fx, 0, width, height);
-        sb.draw(gPicture, fx + width, 0, width, height);
+		for (int i = 0; i < planes.length; i++) {
+			planes[i].update();
+			planes[i].draw(sb);
+		}
 
     }
 
     public void update(){
-        knight.update();
+        backgroundY += skySpeed;
+        if(backgroundY <= -height) backgroundY += height;
 
-        if(!knight.isWalking()){
+        for (int j = 0; j < planes.length; j++) {
+            if(dragon.collidesWidth(planes[j])){
+                dragon.manageCollisionWith(planes[j]);
+                planes[j].manageCollisionWith(dragon);
+            } 
+        }
+    } 
 
-            for (int i = 0; i<objects.length; i++) {
-                GameObject gameObject = objects[i];
-                if(gameObject != null){
-                    gameObject.update();
-                    if(knight.collidesWidth(gameObject)){
-                        knight.manageCollisionWith(gameObject);
-                        gameObject.manageCollisionWith(knight);
-                        objects[i] = null;
-                    } 
-                } 
-            }
-
-            fx += fgSpeed;
-            if(fx <= -width) fx += width;
-
-            mx += mgSpeed;
-            if(mx <= -width) mx += width;
-
-            bx += skySpeed;
-            if(bx <= -width) bx += width;
-        } 
-    }*/
-    @Override
-    public void draw(SpriteBatch sb) {
-        // TODO Auto-generated method stub
-        
+    public void moveDragon(char character){
+        if(character == 'a'){
+			if(dragon.getX() > 0f)
+			dragon.setX(dragon.getX() - 0.05f);
+		}
+		if(character == 'd'){
+			if(dragon.getX() < 4-dragon.getWidth())
+			dragon.setX(dragon.getX() + 0.05f);
+		}
     }
 }

@@ -1,11 +1,12 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.AnimatedSprite;
 
 public class Dragon extends GameObject{
     
-    AnimatedSprite sprite;
+    private AnimatedSprite sprite;
     
     Dragon(){
         super();
@@ -13,6 +14,9 @@ public class Dragon extends GameObject{
         this.setX(0f);
 		this.setY(0);
 		this.setWidth(1f);
+
+        setRadius(0.4f);
+        setbarycentre(0.5f, 0.4f);
     }
     
 
@@ -43,8 +47,8 @@ public class Dragon extends GameObject{
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
 
-        //Vector2 pb = getWorldBarycentre();
-        //b.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
+        Vector2 pb = getWorldBarycentre();
+        //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
     @Override
@@ -55,8 +59,7 @@ public class Dragon extends GameObject{
 
     @Override
     public void manageCollisionWith(GameObject obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'manageCollisionWith'");
+        System.exit(0);
     }
     
 }

@@ -14,9 +14,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 	private float camwidth = 4;
 	private float camHeight;
 
-	private Dragon dragon;
-	private Plane[] planes;
 	private Camera cam;
+	private Screen currentScreen;
 	
 	@Override
 	public void create () {
@@ -29,32 +28,20 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 
 		batch = new SpriteBatch();
 
-		planes = new Plane[20];
-		for (int i = 0; i < planes.length; i++) {
-			planes[i] = new Plane();
-			planes[i].setY((float)(3.5+Math.random()*30));
-			planes[i].setX((float)(Math.random()*3));
-		}
-		dragon = new Dragon();
 		
+		currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
 
 		cam.update();
 
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 
-		dragon.update();
-		dragon.draw(batch);
-
-		for (int i = 0; i < planes.length; i++) {
-			planes[i].update();
-			planes[i].draw(batch);
-		}
+		currentScreen.update();
+		currentScreen.draw(batch);
 		batch.end();
 	}
 	
@@ -75,14 +62,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 
 	@Override
 	public boolean keyTyped(char character) {
-		if(character == 'a'){
-			if(dragon.getX() > 0f)
-			dragon.setX(dragon.getX() - 0.05f);
-		}
-		if(character == 'd'){
-			if(dragon.getX() < 4-dragon.getWidth())
-			dragon.setX(dragon.getX() + 0.05f);
-		}
+		((Level) currentScreen).moveDragon(character);
 		return true;
 	}
 
