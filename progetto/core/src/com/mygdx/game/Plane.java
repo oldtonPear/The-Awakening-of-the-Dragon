@@ -4,18 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.Sprite;
 
-public class Plane extends GameObject{
+public abstract class Plane extends GameObject{
 
     private Sprite sprite;
 
     Plane(){
         super();
-        sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_PLANE));
-		setWidth(0.5f);
-        setHeight(0.5f);
-
-        setRadius(0.2f);
-        setbarycentre(0.22f, 0.26f);
     }
 
     @Override
@@ -58,5 +52,11 @@ public class Plane extends GameObject{
         if(obj instanceof Dragon){
             System.out.println("COLLISIONE!");
         }
+    }
+    public Sprite getSprite() {
+        return sprite;
+    }
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 }

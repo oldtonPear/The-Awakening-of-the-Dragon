@@ -33,7 +33,8 @@ public class Level extends Screen{
         
         planes = new Plane[20];
 		for (int i = 0; i < planes.length; i++) {
-			planes[i] = new Plane();
+			if(i%2==0) planes[i] = new Stealth_plane();
+            else planes[i] = new War_plane();
 			planes[i].setY((float)(3.5+Math.random()*30));
 			planes[i].setX((float)(Math.random()*3));
 		}

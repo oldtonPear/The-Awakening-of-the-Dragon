@@ -20,11 +20,17 @@ public class ResourceLoader {
             case STEALTH_PLANE:
                 mapTexture.put(index, new Texture("stealth_plane.png"));
             break;
+            case WAR_PLANE:
+                mapTexture.put(index, new Texture("war_plane.png"));
+            break;
             case SKY:
                 mapTexture.put(index, new Texture("sky.png"));
             break;
             case BUBBLE:
                 mapTexture.put(index, new Texture("bubble.png"));
+            break;
+            case MENU:
+                mapTexture.put(index, new Texture("menu.png"));
             break;
             
             default: return null;

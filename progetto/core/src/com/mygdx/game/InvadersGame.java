@@ -16,6 +16,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 
 	private Camera cam;
 	private Screen currentScreen;
+
+	private boolean isMenuActivated;
 	
 	@Override
 	public void create () {
@@ -28,8 +30,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 
 		batch = new SpriteBatch();
 
-		
-		currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
+		isMenuActivated = true;
+		currentScreen = new Menu("Level", camwidth * Parameters.getInverseAspectRatio());
 	}
 
 	@Override
@@ -62,6 +64,9 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 
 	@Override
 	public boolean keyTyped(char character) {
+		if(character == ' ' && isMenuActivated){
+			toggleMenu();
+		} 
 		((Level) currentScreen).moveDragon(character);
 		return true;
 	}
@@ -96,5 +101,11 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
 		return false;
+	}
+
+	public void toggleMenu(){
+		if(isMenuActivated) currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
+		else currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
+		isMenuActivated = !isMenuActivated;
 	}
 }
