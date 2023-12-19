@@ -6,10 +6,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.coreGame.Parameters;
 
-public class InvadersGame extends ApplicationAdapter implements InputProcessor{
+public class InvadersGame extends ApplicationAdapter implements InputProcessor, Observer{
 	private SpriteBatch batch;
 	private float camwidth = 4;
 	private float camHeight;
@@ -64,10 +63,15 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 
 	@Override
 	public boolean keyTyped(char character) {
-		if(character == ' ' && isMenuActivated){
+		try{
+			if(character == ' ' && isMenuActivated){
 			toggleMenu();
-		} 
-		((Level) currentScreen).moveDragon(character);
+			} 
+			((Level) currentScreen).moveDragon(character);
+		}catch(ClassCastException e){
+
+		}
+		
 		return true;
 	}
 
@@ -104,8 +108,17 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor{
 	}
 
 	public void toggleMenu(){
-		if(isMenuActivated) currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
+		if(isMenuActivated){
+			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
+			((Level) currentScreen).linkObservers();
+			((Level) currentScreen).register(this);
+		} 
 		else currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
 		isMenuActivated = !isMenuActivated;
+	}
+
+	@Override
+	public void updateObserver(String s) {
+		toggleMenu();
 	}
 }

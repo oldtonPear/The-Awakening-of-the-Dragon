@@ -59,7 +59,7 @@ public class Dragon extends GameObject{
 
     @Override
     public void manageCollisionWith(GameObject obj) {
-        System.exit(0);
+        notifyObservers("ciao");
     }
     
 }

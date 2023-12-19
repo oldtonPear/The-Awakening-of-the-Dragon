@@ -6,7 +6,7 @@ import com.mygdx.coreGame.Sprite;
 
 public abstract class Plane extends GameObject{
 
-    private Sprite sprite;
+    protected Sprite sprite;
 
     Plane(){
         super();
@@ -50,13 +50,6 @@ public abstract class Plane extends GameObject{
     @Override
     public void manageCollisionWith(GameObject obj) {
         if(obj instanceof Dragon){
-            System.out.println("COLLISIONE!");
         }
-    }
-    public Sprite getSprite() {
-        return sprite;
-    }
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
     }
 }

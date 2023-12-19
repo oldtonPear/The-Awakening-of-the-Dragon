@@ -6,7 +6,7 @@ public class War_plane extends Plane{
     
     War_plane(){
         super();
-        setSprite(new Sprite(ResourceLoader.getTexture(ResourceEnum.WAR_PLANE)));
+        sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.WAR_PLANE));
         setWidth(0.5f);
         setHeight(0.5f);
 

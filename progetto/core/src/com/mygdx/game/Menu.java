@@ -13,8 +13,6 @@ public class Menu extends Screen{
     
     private Texture menuTexture;
 
-
-    
     Menu(String name, float height){
         super();
         this.menuTexture = ResourceLoader.getTexture(ResourceEnum.MENU);

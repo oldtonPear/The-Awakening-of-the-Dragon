@@ -1,11 +1,13 @@
 package com.mygdx.game;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.GraphicObject;
 import com.mygdx.coreGame.Updateable;
 
-public abstract class GameObject extends GraphicObject implements Updateable{
+public abstract class GameObject extends GraphicObject implements Updateable, Observed{
 
     protected Vector2 velocity;
 
@@ -14,6 +16,8 @@ public abstract class GameObject extends GraphicObject implements Updateable{
     protected float radius;
 
     protected Vector2 acceleration;
+
+    private LinkedList<Observer> observers = new LinkedList<>();
 
     public GameObject() {
         super();
@@ -89,6 +93,19 @@ public abstract class GameObject extends GraphicObject implements Updateable{
         Vector2 posB = obj.getWorldBarycentre();
         if(posA.dst(posB) < this.getRadius() + obj.getRadius()) return true;
         return false;
+    }
+
+    public void register(Observer o){
+        observers.add(o);
+    }
+    public void unregister(Observer o){
+        observers.remove(0);
+    }
+
+    public void notifyObservers(String s){
+        if(this instanceof Dragon){
+            observers.getFirst().updateObserver(this.getClass().getSimpleName());
+        }
     }
 
     public abstract void manageCollisionWith(GameObject obj);

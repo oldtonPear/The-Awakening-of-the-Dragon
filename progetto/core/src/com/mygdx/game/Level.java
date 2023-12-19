@@ -1,10 +1,12 @@
 package com.mygdx.game;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 
-public class Level extends Screen{
+public class Level extends Screen implements Observer, Observed{
 
     private float skySpeed;
     
@@ -18,6 +20,8 @@ public class Level extends Screen{
     
     private Dragon dragon;
 	private Plane[] planes;
+
+    private LinkedList<Observer> observers = new LinkedList<>();
 
     Level(String name, float height){
         super();
@@ -33,10 +37,13 @@ public class Level extends Screen{
         
         planes = new Plane[20];
 		for (int i = 0; i < planes.length; i++) {
+
 			if(i%2==0) planes[i] = new Stealth_plane();
             else planes[i] = new War_plane();
-			planes[i].setY((float)(3.5+Math.random()*30));
+
+            planes[i].setY((float)(3.5+Math.random()*30));
 			planes[i].setX((float)(Math.random()*3));
+			
 		}
 		dragon = new Dragon();
         
@@ -85,5 +92,24 @@ public class Level extends Screen{
 			if(dragon.getX() < 4-dragon.getWidth())
 			dragon.setX(dragon.getX() + 0.05f);
 		}
+    }
+
+    @Override
+    public void updateObserver(String s) {
+        observers.getFirst().updateObserver(this.getClass().getSimpleName());
+    }
+    public void linkObservers(){
+        dragon.register(this);
+    }
+
+    public void register(Observer o){
+        observers.add(o);
+    }
+    public void unregister(Observer o){
+        observers.remove(0);
+    }
+
+    public void notifyObservers(String s){
+        observers.getFirst().updateObserver(this.getClass().getSimpleName());
     }
 }

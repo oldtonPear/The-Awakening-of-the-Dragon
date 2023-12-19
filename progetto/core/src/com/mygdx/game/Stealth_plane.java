@@ -6,7 +6,7 @@ public class Stealth_plane extends Plane{
 
     Stealth_plane(){
         super();
-        setSprite(new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_PLANE)));
+        sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_PLANE));
         setWidth(0.5f);
         setHeight(0.5f);
 
