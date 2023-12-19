@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
+import com.mygdx.entities.Dragon;
+import com.mygdx.entities.Plane;
+import com.mygdx.entities.Stealth_plane;
+import com.mygdx.entities.War_plane;
 
 public class Level extends Screen implements Observer, Observed{
 

@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.GraphicObject;
 import com.mygdx.coreGame.Updateable;
+import com.mygdx.entities.Dragon;
 
 public abstract class GameObject extends GraphicObject implements Updateable, Observed{
 
     protected Vector2 velocity;
 
-    protected Vector2 barycentre;
+    protected Vector2 barycenter;
 
     protected float radius;
 
@@ -23,7 +24,7 @@ public abstract class GameObject extends GraphicObject implements Updateable, Ob
         super();
 
         velocity = new Vector2(0,0);
-        barycentre = new Vector2(0,0);
+        barycenter = new Vector2(0,0);
         acceleration = new Vector2(0,0);
         
         radius = 0;
@@ -45,21 +46,21 @@ public abstract class GameObject extends GraphicObject implements Updateable, Ob
      * La posizione del baricentro nelle coordinate del mondo
      * @return
      */
-    public Vector2 getWorldBarycentre(){
-        return new Vector2(x + barycentre.x, y + barycentre.y);
+    public Vector2 getWorldBarycenter(){
+        return new Vector2(x + barycenter.x, y + barycenter.y);
 
     }
 
-    public Vector2 getbarycentre() {
-        return new Vector2(barycentre);
+    public Vector2 getBarycenter() {
+        return new Vector2(barycenter);
     }
-    public void setbarycentre(Vector2 barycentre) {
-        this.barycentre.x = barycentre.x;
-        this.barycentre.y = barycentre.y;
+    public void setBarycenter(Vector2 barycenter) {
+        this.barycenter.x = barycenter.x;
+        this.barycenter.y = barycenter.y;
     }
-    public void setbarycentre(float x, float y) {
-        this.barycentre.x = x;
-        this.barycentre.y = y;
+    public void setBarycenter(float x, float y) {
+        this.barycenter.x = x;
+        this.barycenter.y = y;
     }
 
     public float getRadius() {
@@ -69,14 +70,14 @@ public abstract class GameObject extends GraphicObject implements Updateable, Ob
         this.radius = radius;
     }
 
-    public Vector2 getacceleration() {
+    public Vector2 getAccelretion() {
         return new Vector2(acceleration);
     }
-    public void setacceleration(Vector2 acceleration) {
+    public void setAcceleration(Vector2 acceleration) {
         this.acceleration.x = acceleration.x;
         this.acceleration.y = acceleration.y;
     }
-    public void setacceleration(float x, float y) {
+    public void setAcceleration(float x, float y) {
         this.acceleration.x = x;
         this.acceleration.y = y;
     }
@@ -89,8 +90,8 @@ public abstract class GameObject extends GraphicObject implements Updateable, Ob
     }
 
     public boolean collidesWidth(GameObject obj){
-        Vector2 posA = this.getWorldBarycentre();
-        Vector2 posB = obj.getWorldBarycentre();
+        Vector2 posA = this.getBarycenter();
+        Vector2 posB = obj.getBarycenter();
         if(posA.dst(posB) < this.getRadius() + obj.getRadius()) return true;
         return false;
     }

@@ -1,36 +1,30 @@
-package com.mygdx.game;
+package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.coreGame.AnimatedSprite;
+import com.mygdx.coreGame.Sprite;
+import com.mygdx.game.GameObject;
 
-public class Dragon extends GameObject{
-    
-    private AnimatedSprite sprite;
-    
-    Dragon(){
+public abstract class Plane extends GameObject{
+
+    protected Sprite sprite;
+
+    Plane(){
         super();
-        sprite = new AnimatedSprite(ResourceLoader.getAnimation(ResourceEnum.DRAGON));
-        this.setX(0f);
-		this.setY(0);
-		this.setWidth(1f);
-
-        setRadius(0.4f);
-        setbarycentre(0.5f, 0.4f);
     }
-    
 
     @Override
     public void setX(float x) {
         super.setX(x);
         sprite.setX(x);
+        
     }
     @Override
     public void setY(float y) {
-        super.setY(y);
         sprite.setY(y);
+        super.setY(y);
+        
     }
-
     @Override
     public void setWidth(float width) {
         super.setWidth(width);
@@ -42,24 +36,33 @@ public class Dragon extends GameObject{
         sprite.setHeight(height);
     }
 
-    
+    /**
+     * draws plane
+     * @param spriteBatch
+     */
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
 
-        Vector2 pb = getWorldBarycentre();
+        Vector2 pb = getWorldBarycenter();
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
+    /**
+     * updates plane
+     */
     @Override
-    public void update() {
-        sprite.update();
-        
-    }
-
-    @Override
-    public void manageCollisionWith(GameObject obj) {
-        notifyObservers("ciao");
+    public void update(){
+        this.setY(this.getY()-0.01f);
     }
     
+    /**
+     * manages collisions with Fireball calling Level's Observer
+     * @see Fireball, Level, Observer, Observed
+     */
+    @Override
+    public void manageCollisionWith(GameObject obj) {
+        if(obj instanceof Fireball){
+        }
+    }
 }

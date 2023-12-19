@@ -10,6 +10,7 @@ public abstract class GraphicObject implements Drawalble{
     protected float offsetX = 0;
     protected float offsetY = 0;
 
+    //a bunch of getters and setters
     public float getX() {
         return x;
     }
