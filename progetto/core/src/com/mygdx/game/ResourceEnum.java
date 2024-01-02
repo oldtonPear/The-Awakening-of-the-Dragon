@@ -8,5 +8,6 @@ public enum ResourceEnum {
     BUBBLE,
     MENU,
     FIREBALL,
-    BULLET
+    STEALTH_BULLET,
+    WAR_BULLET
 }

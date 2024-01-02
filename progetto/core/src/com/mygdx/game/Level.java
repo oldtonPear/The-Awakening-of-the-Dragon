@@ -5,10 +5,13 @@ import java.util.LinkedList;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
+import com.mygdx.entities.Bullet;
 import com.mygdx.entities.Dragon;
 import com.mygdx.entities.Fireball;
 import com.mygdx.entities.Plane;
+import com.mygdx.entities.Stealth_bullet;
 import com.mygdx.entities.Stealth_plane;
+import com.mygdx.entities.War_bullet;
 import com.mygdx.entities.War_plane;
 
 public class Level extends Screen implements Observed{
@@ -26,7 +29,8 @@ public class Level extends Screen implements Observed{
     private Dragon dragon;
 	private Plane[] planes;
 
-    private LinkedList<Fireball> fireball;
+    private LinkedList<Fireball> fireballs;
+    private LinkedList<Bullet> bullets;
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
@@ -53,8 +57,8 @@ public class Level extends Screen implements Observed{
 			
 		}
 		dragon = new Dragon();
-        fireball = new LinkedList<>();
-        
+        fireballs = new LinkedList<>();
+        bullets = new LinkedList<>();
     }
 
     public float getSpeed() {
@@ -71,25 +75,42 @@ public class Level extends Screen implements Observed{
         
 		dragon.draw(sb);
 
-        for (Fireball f : fireball) {
+        for (Fireball f : fireballs) {
             f.draw(sb);
+        }
+
+        for (Bullet bullet : bullets) {
+            bullet.draw(sb);
         }
         
 		for (int i = 0; i < planes.length; i++) {
             if(planes[i] != null){
                 planes[i].update();
 			    planes[i].draw(sb);
+                if(Math.random()<0.01f && planes[i].getY()<3){
+                    if(planes[i] instanceof Stealth_plane){
+                        spawnStealthBullet(planes[i].getX(), planes[i].getY());
+                    }
+                    else spawnWarBullet(planes[i].getX(), planes[i].getY());
+                }
             }
 		}
     }
 
     public void update(){
-        for (Fireball f : fireball) {
+        for (Fireball f : fireballs) {
             f.update();
+        }
+        for (Bullet bullet : bullets) {
+            bullet.update();
         }
         dragon.update();
         backgroundY += skySpeed;
         if(backgroundY <= -height) backgroundY += height;
+        checkAndManageCollisions();
+    } 
+
+    public void checkAndManageCollisions(){
 
         for (int j = 0; j < planes.length; j++) {
             if(planes[j] != null){
@@ -99,18 +120,18 @@ public class Level extends Screen implements Observed{
                 
                 else{
                     LinkedList<Fireball> removed = new LinkedList<Fireball>();
-                    for (Fireball f : fireball) {
+                    for (Fireball f : fireballs) {
                         if(f.collidesWidth(planes[j]) || (f.getY() > 4)){
                             removed.add(f);
                             planes[j] = null;
                             break;
                         }
                     }
-                    fireball.removeAll(removed);
+                    fireballs.removeAll(removed);
                 } 
             }
         }
-    } 
+    }
 
     public void moveDragon(char character){
         if(character == 'a'){
@@ -127,13 +148,27 @@ public class Level extends Screen implements Observed{
         float fy = dragon.getY()+0.4f;
         boolean create = true;
         Fireball newF = new Fireball(fx, fy);
-        for (Fireball f : fireball) {
+        for (Fireball f : fireballs) {
             if(f.collidesWidth(newF)) create = false;
         }
-        if(create) fireball.add(newF);
+        if(create) fireballs.add(newF);
     }
-    public void despawnFireball(Fireball f){
-        fireball.remove(f);
+
+    public void spawnStealthBullet(float x, float y){
+        boolean create = true;
+        Bullet newF = new Stealth_bullet(x, y);
+        for (Bullet s : bullets) {
+            if(newF.collidesWidth(s)) create = false;
+        }
+        if(create) bullets.add(newF);
+    }
+    public void spawnWarBullet(float x, float y){
+        boolean create = true;
+        Bullet newF = new War_bullet(x, y);
+        for (Bullet s : bullets) {
+            if(newF.collidesWidth(s)) create = false;
+        }
+        if(create) bullets.add(newF);
     }
 
     public void register(Observer o){
@@ -143,7 +178,6 @@ public class Level extends Screen implements Observed{
     public void unregister(Observer o){
         observers.remove(0);
     }
-
     public void notifyObservers(String s){
         observers.getFirst().updateObserver(s);
     }

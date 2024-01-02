@@ -7,7 +7,7 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
-public class Fireball extends Projectile{
+public class Fireball extends GameObject{
     
     private AnimatedSprite sprite;
     

@@ -67,6 +67,5 @@ public class Dragon extends GameObject{
     @Override
     public void update() {
         sprite.update();
-        
     }
 }

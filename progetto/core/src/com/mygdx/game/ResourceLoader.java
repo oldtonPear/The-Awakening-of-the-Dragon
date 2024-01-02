@@ -32,6 +32,13 @@ public class ResourceLoader {
             case MENU:
                 mapTexture.put(index, new Texture("menu.png"));
             break;
+            case STEALTH_BULLET:
+                mapTexture.put(index, new Texture("stealth_bullet.png"));
+            break;
+            case WAR_BULLET:
+                mapTexture.put(index, new Texture("war_bullet.png"));
+            break;
+
             
             default: return null;
             }
