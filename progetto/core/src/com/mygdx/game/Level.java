@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 import com.mygdx.entities.Dragon;
+import com.mygdx.entities.Fireball;
 import com.mygdx.entities.Plane;
 import com.mygdx.entities.Stealth_plane;
 import com.mygdx.entities.War_plane;
 
-public class Level extends Screen implements Observer, Observed{
+public class Level extends Screen implements Observed{
 
     private float skySpeed;
     
@@ -24,6 +25,8 @@ public class Level extends Screen implements Observer, Observed{
     
     private Dragon dragon;
 	private Plane[] planes;
+
+    private LinkedList<Fireball> fireball;
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
@@ -50,6 +53,7 @@ public class Level extends Screen implements Observer, Observed{
 			
 		}
 		dragon = new Dragon();
+        fireball = new LinkedList<>();
         
     }
 
@@ -64,26 +68,47 @@ public class Level extends Screen implements Observer, Observed{
     public void draw(SpriteBatch sb) {
         sb.draw(skyPicture, 0, backgroundY, width, height);
         sb.draw(skyPicture, 0, backgroundY + height, width, height);
-
-        dragon.update();
+        
 		dragon.draw(sb);
 
+        for (Fireball f : fireball) {
+            f.draw(sb);
+        }
+        
 		for (int i = 0; i < planes.length; i++) {
-			planes[i].update();
-			planes[i].draw(sb);
+            if(planes[i] != null){
+                planes[i].update();
+			    planes[i].draw(sb);
+            }
 		}
-
     }
 
     public void update(){
+        for (Fireball f : fireball) {
+            f.update();
+        }
+        dragon.update();
         backgroundY += skySpeed;
         if(backgroundY <= -height) backgroundY += height;
 
         for (int j = 0; j < planes.length; j++) {
-            if(dragon.collidesWidth(planes[j])){
-                dragon.manageCollisionWith(planes[j]);
-                planes[j].manageCollisionWith(dragon);
-            } 
+            if(planes[j] != null){
+                if(dragon.collidesWidth(planes[j])){
+                    notifyObservers(this.getClass().getSimpleName());
+                } 
+                
+                else{
+                    LinkedList<Fireball> removed = new LinkedList<Fireball>();
+                    for (Fireball f : fireball) {
+                        if(f.collidesWidth(planes[j]) || (f.getY() > 4)){
+                            removed.add(f);
+                            planes[j] = null;
+                            break;
+                        }
+                    }
+                    fireball.removeAll(removed);
+                } 
+            }
         }
     } 
 
@@ -97,18 +122,22 @@ public class Level extends Screen implements Observer, Observed{
 			dragon.setX(dragon.getX() + 0.05f);
 		}
     }
-
-    @Override
-    public void updateObserver(String s) {
-        //this.observers.getFirst().updateObserver(this.getClass().getSimpleName());
-        notifyObservers(s);
+    public void spawnFireball(){
+        float fx = dragon.getX()+0.1f;
+        float fy = dragon.getY()+0.4f;
+        boolean create = true;
+        Fireball newF = new Fireball(fx, fy);
+        for (Fireball f : fireball) {
+            if(f.collidesWidth(newF)) create = false;
+        }
+        if(create) fireball.add(newF);
     }
-
-    public void linkObservers(){
-        dragon.register(this);
+    public void despawnFireball(Fireball f){
+        fireball.remove(f);
     }
 
     public void register(Observer o){
+        if(this.observers.size() == 0)
         observers.add(o);
     }
     public void unregister(Observer o){
@@ -116,6 +145,6 @@ public class Level extends Screen implements Observer, Observed{
     }
 
     public void notifyObservers(String s){
-        observers.getFirst().updateObserver(this.getClass().getSimpleName());
+        observers.getFirst().updateObserver(s);
     }
 }

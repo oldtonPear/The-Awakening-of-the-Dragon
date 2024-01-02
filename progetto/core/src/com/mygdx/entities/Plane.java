@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.ResourceEnum;
+import com.mygdx.game.ResourceLoader;
 
 public abstract class Plane extends GameObject{
 
@@ -53,16 +55,7 @@ public abstract class Plane extends GameObject{
      */
     @Override
     public void update(){
-        this.setY(this.getY()-0.01f);
-    }
-    
-    /**
-     * manages collisions with Fireball calling Level's Observer
-     * @see Fireball, Level, Observer, Observed
-     */
-    @Override
-    public void manageCollisionWith(GameObject obj) {
-        if(obj instanceof Fireball){
-        }
+        if(this.getY()<-2)this.setY((float)(3.5+Math.random()*30));
+        else this.setY(this.getY()-0.01f);
     }
 }

@@ -69,16 +69,4 @@ public class Dragon extends GameObject{
         sprite.update();
         
     }
-
-    /**
-     * calls Level's Observer
-     * @see Level, Observed, Observer
-     */
-    @Override
-    public void manageCollisionWith(GameObject obj) {
-        if(obj instanceof Plane){
-            notifyObservers(this.getClass().getSimpleName());
-        }
-    }
-    
 }

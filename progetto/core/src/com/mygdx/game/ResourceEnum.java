@@ -6,5 +6,7 @@ public enum ResourceEnum {
     DRAGON,
     SKY,
     BUBBLE,
-    MENU
+    MENU,
+    FIREBALL,
+    BULLET
 }

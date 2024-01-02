@@ -64,6 +64,9 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	@Override
 	public boolean keyTyped(char character) {
 		try{
+			if(character == 'e' && !isMenuActivated){
+				((Level) currentScreen).spawnFireball();
+			}
 			if(character == ' ' && isMenuActivated){
 				toggleMenu();
 			} 
@@ -109,11 +112,14 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 	public void toggleMenu(){
 		if(isMenuActivated){
+			//System.out.println("entering level");
 			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
-			((Level) currentScreen).linkObservers();
 			((Level) currentScreen).register(this);
 		} 
-		else currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
+		else{
+			//System.out.println("entering menu");
+			currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
+		} 
 		isMenuActivated =! isMenuActivated;
 	}
 

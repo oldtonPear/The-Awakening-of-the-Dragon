@@ -6,12 +6,6 @@ import com.mygdx.game.GameObject;
 public class Projectile extends GameObject{
 
     @Override
-    public void manageCollisionWith(GameObject obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'manageCollisionWith'");
-    }
-
-    @Override
     public void update() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
