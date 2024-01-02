@@ -100,8 +100,10 @@ public class Level extends Screen implements Observer, Observed{
 
     @Override
     public void updateObserver(String s) {
-        observers.getFirst().updateObserver(this.getClass().getSimpleName());
+        //this.observers.getFirst().updateObserver(this.getClass().getSimpleName());
+        notifyObservers(s);
     }
+
     public void linkObservers(){
         dragon.register(this);
     }

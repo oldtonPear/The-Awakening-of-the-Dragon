@@ -76,7 +76,9 @@ public class Dragon extends GameObject{
      */
     @Override
     public void manageCollisionWith(GameObject obj) {
-        notifyObservers("ciao");
+        if(obj instanceof Plane){
+            notifyObservers(this.getClass().getSimpleName());
+        }
     }
     
 }

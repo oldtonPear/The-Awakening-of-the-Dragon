@@ -65,7 +65,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	public boolean keyTyped(char character) {
 		try{
 			if(character == ' ' && isMenuActivated){
-			toggleMenu();
+				toggleMenu();
 			} 
 			((Level) currentScreen).moveDragon(character);
 		}catch(ClassCastException e){
@@ -114,7 +114,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 			((Level) currentScreen).register(this);
 		} 
 		else currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
-		isMenuActivated = !isMenuActivated;
+		isMenuActivated =! isMenuActivated;
 	}
 
 	@Override
