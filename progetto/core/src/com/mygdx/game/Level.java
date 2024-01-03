@@ -87,12 +87,14 @@ public class Level extends Screen implements Observed{
             if(planes[i] != null){
                 planes[i].update();
 			    planes[i].draw(sb);
-                if(Math.random()<0.01f && planes[i].getY()<3){
-                    if(planes[i] instanceof Stealth_plane){
-                        spawnStealthBullet(planes[i].getX(), planes[i].getY());
-                    }
-                    else spawnWarBullet(planes[i].getX(), planes[i].getY());
+                if(Math.random()<0.01f && planes[i].getY()<3 && planes[i] instanceof Stealth_plane){
+                    spawnStealthBullet(planes[i].getX(), planes[i].getY());
                 }
+                if(Math.random()<0.005f && planes[i].getY()<3 && planes[i] instanceof War_plane){
+                    spawnWarBullet(planes[i].getX(), planes[i].getY());
+                }
+                
+                
             }
 		}
     }

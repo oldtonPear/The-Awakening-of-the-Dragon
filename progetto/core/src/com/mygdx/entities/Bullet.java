@@ -47,7 +47,7 @@ public abstract class Bullet extends GameObject{
         sprite.draw(sb);
 
         Vector2 pb = getWorldBarycenter();
-        sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
+        //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
     /**
@@ -56,7 +56,7 @@ public abstract class Bullet extends GameObject{
     @Override
     public void update(){
         if(this.getY()<-2)this.setY((float)(3.5+Math.random()*30));
-        else this.setY(this.getY()-0.02f);
+        else this.setY(this.getY()-0.015f);
     }
     
 }

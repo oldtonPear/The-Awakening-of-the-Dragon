@@ -11,11 +11,10 @@ public class Stealth_bullet extends Bullet{
     public Stealth_bullet(float planeX, float planeY) {
         super(planeX, planeY);
         sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.STEALTH_BULLET));
-        setWidth(0.5f);
-        setHeight(0.5f);
+        setWidth(0.45f);
 
-        setRadius(0.18f);
-        setBarycenter(0.18f, 0.26f);
+        setRadius(0.15f);
+        setBarycenter(0.22f, 0.2f);
 
         setX(planeX);
         setY(planeY);

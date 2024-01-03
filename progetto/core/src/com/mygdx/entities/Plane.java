@@ -56,6 +56,6 @@ public abstract class Plane extends GameObject{
     @Override
     public void update(){
         if(this.getY()<-2)this.setY((float)(3.5+Math.random()*30));
-        else this.setY(this.getY()-0.01f);
+        else this.setY(this.getY()-0.008f);
     }
 }
