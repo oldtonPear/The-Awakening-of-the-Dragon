@@ -43,6 +43,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 		currentScreen.update();
 		currentScreen.draw(batch);
+
 		batch.end();
 	}
 	
@@ -110,21 +111,28 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 		return false;
 	}
 
+	/**
+	 * toggles the current state of the screen
+	 * Level-Menu
+	 */
 	public void toggleMenu(){
 		if(isMenuActivated){
-			//System.out.println("entering level");
 			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
 			((Level) currentScreen).register(this);
 		} 
 		else{
-			//System.out.println("entering menu");
 			currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
 		} 
 		isMenuActivated =! isMenuActivated;
 	}
 
+	/**
+	 * updates observers
+	 * @see Observer
+	 * @param invoking's class name
+	 */
 	@Override
-	public void updateObserver(String s) {
+	public void updateObserver() {
 		toggleMenu();
 	}
 }

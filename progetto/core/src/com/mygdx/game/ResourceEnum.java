@@ -9,5 +9,8 @@ public enum ResourceEnum {
     MENU,
     FIREBALL,
     STEALTH_BULLET,
-    WAR_BULLET
+    WAR_BULLET,
+    HEALTH_1,
+    HEALTH_2,
+    HEALTH_3
 }

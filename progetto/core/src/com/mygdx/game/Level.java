@@ -8,11 +8,19 @@ import com.mygdx.coreGame.Parameters;
 import com.mygdx.entities.Bullet;
 import com.mygdx.entities.Dragon;
 import com.mygdx.entities.Fireball;
+import com.mygdx.entities.Health;
 import com.mygdx.entities.Plane;
 import com.mygdx.entities.Stealth_bullet;
 import com.mygdx.entities.Stealth_plane;
 import com.mygdx.entities.War_bullet;
 import com.mygdx.entities.War_plane;
+
+
+/**
+ * @author Christian Torli
+ * @oldtonPear
+ * Class to manage the level
+ */
 
 public class Level extends Screen implements Observed{
 
@@ -25,6 +33,7 @@ public class Level extends Screen implements Observed{
     
     private Texture skyPicture;
     
+    private int nLives;
     
     private Dragon dragon;
 	private Plane[] planes;
@@ -34,8 +43,12 @@ public class Level extends Screen implements Observed{
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
+    private Health health;
+
     Level(String name, float height){
         super();
+
+        nLives = 3;
 
         this.skySpeed = -0.005f;
 
@@ -59,13 +72,8 @@ public class Level extends Screen implements Observed{
 		dragon = new Dragon();
         fireballs = new LinkedList<>();
         bullets = new LinkedList<>();
-    }
 
-    public float getSpeed() {
-        return skySpeed;
-    }
-    public void setSpeed(float speed) {
-        this.skySpeed = speed;
+        health = new Health();
     }
 
     @Override
@@ -85,7 +93,6 @@ public class Level extends Screen implements Observed{
         
 		for (int i = 0; i < planes.length; i++) {
             if(planes[i] != null){
-                planes[i].update();
 			    planes[i].draw(sb);
                 if(Math.random()<0.01f && planes[i].getY()<3 && planes[i] instanceof Stealth_plane){
                     spawnStealthBullet(planes[i].getX(), planes[i].getY());
@@ -93,13 +100,14 @@ public class Level extends Screen implements Observed{
                 if(Math.random()<0.005f && planes[i].getY()<3 && planes[i] instanceof War_plane){
                     spawnWarBullet(planes[i].getX(), planes[i].getY());
                 }
-                
-                
             }
 		}
+        health.draw(sb);
     }
 
     public void update(){
+        if(!health.updateNlives(nLives)) notifyObservers();
+
         for (Fireball f : fireballs) {
             f.update();
         }
@@ -107,34 +115,65 @@ public class Level extends Screen implements Observed{
             bullet.update();
         }
         dragon.update();
+
+        for (int i = 0; i < planes.length; i++) {
+            if(planes[i] != null) planes[i].update();
+        }
+
         backgroundY += skySpeed;
         if(backgroundY <= -height) backgroundY += height;
+
         checkAndManageCollisions();
+
     } 
 
+    /**
+     * checks for collisions between objects and manages them
+     */
     public void checkAndManageCollisions(){
 
         for (int j = 0; j < planes.length; j++) {
             if(planes[j] != null){
                 if(dragon.collidesWidth(planes[j])){
-                    notifyObservers(this.getClass().getSimpleName());
+                    notifyObservers();
                 } 
                 
                 else{
                     LinkedList<Fireball> removed = new LinkedList<Fireball>();
                     for (Fireball f : fireballs) {
-                        if(f.collidesWidth(planes[j]) || (f.getY() > 4)){
+                        if(f.getY() > 4){
                             removed.add(f);
-                            planes[j] = null;
                             break;
                         }
+                        if(f.collidesWidth(planes[j])){
+                            planes[j] = null;
+                            removed.add(f);
+                            break;
+                        } 
                     }
                     fireballs.removeAll(removed);
                 } 
             }
         }
+        LinkedList<Bullet> removed = new LinkedList<Bullet>();
+            for (Bullet b : bullets) {
+                if(b.getY() < -2){
+                    removed.add(b);
+                }
+                else if(b.collidesWidth(dragon)){
+                    removed.add(b);
+                    if(b instanceof Stealth_bullet) nLives--;
+                    else nLives = nLives -2;
+                }
+            }
+        bullets.removeAll(removed);
     }
 
+    /**
+     * moves the dragon when pressed certain char
+     * a-left d-right
+     * @param character
+     */
     public void moveDragon(char character){
         if(character == 'a'){
 			if(dragon.getX() > 0f)
@@ -145,6 +184,10 @@ public class Level extends Screen implements Observed{
 			dragon.setX(dragon.getX() + 0.05f);
 		}
     }
+
+    /**
+     * spawn a fireball at the dragon's current location
+     */
     public void spawnFireball(){
         float fx = dragon.getX()+0.1f;
         float fy = dragon.getY()+0.4f;
@@ -156,6 +199,11 @@ public class Level extends Screen implements Observed{
         if(create) fireballs.add(newF);
     }
 
+    /**
+     * spawns a stealth bullet at the specified location
+     * @param x
+     * @param y
+     */
     public void spawnStealthBullet(float x, float y){
         boolean create = true;
         Bullet newF = new Stealth_bullet(x, y);
@@ -164,6 +212,12 @@ public class Level extends Screen implements Observed{
         }
         if(create) bullets.add(newF);
     }
+
+    /**
+     * spawns a war bullet at the specified location
+     * @param x
+     * @param y
+     */
     public void spawnWarBullet(float x, float y){
         boolean create = true;
         Bullet newF = new War_bullet(x, y);
@@ -180,7 +234,7 @@ public class Level extends Screen implements Observed{
     public void unregister(Observer o){
         observers.remove(0);
     }
-    public void notifyObservers(String s){
-        observers.getFirst().updateObserver(s);
+    public void notifyObservers(){
+        observers.getFirst().updateObserver();
     }
 }

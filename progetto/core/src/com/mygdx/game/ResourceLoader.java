@@ -38,8 +38,16 @@ public class ResourceLoader {
             case WAR_BULLET:
                 mapTexture.put(index, new Texture("war_bullet.png"));
             break;
+            case HEALTH_1:
+                mapTexture.put(index, new Texture("Health1.png"));
+            break;
+            case HEALTH_2:
+                mapTexture.put(index, new Texture("Health2.png"));
+            break;
+            case HEALTH_3:
+                mapTexture.put(index, new Texture("Health3.png"));
+            break;
 
-            
             default: return null;
             }
         }  

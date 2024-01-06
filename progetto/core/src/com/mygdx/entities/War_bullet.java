@@ -28,7 +28,6 @@ public class War_bullet extends Bullet{
      */
     @Override
     public void update(){
-        if(this.getY()<-2)this.setY((float)(3.5+Math.random()*30));
-        else this.setY(this.getY()-0.012f);
+        this.setY(this.getY()-0.012f);
     }
 }

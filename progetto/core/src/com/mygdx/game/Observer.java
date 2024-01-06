@@ -1,5 +1,5 @@
 package com.mygdx.game;
 
 public interface Observer {
-    public void updateObserver(String s);
+    public void updateObserver();
 }
