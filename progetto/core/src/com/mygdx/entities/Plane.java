@@ -1,11 +1,8 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.GameObject;
-import com.mygdx.game.ResourceEnum;
-import com.mygdx.game.ResourceLoader;
 
 public abstract class Plane extends GameObject{
 
@@ -46,7 +43,7 @@ public abstract class Plane extends GameObject{
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
 
-        Vector2 pb = getWorldBarycenter();
+        //Vector2 pb = getWorldBarycenter();
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 

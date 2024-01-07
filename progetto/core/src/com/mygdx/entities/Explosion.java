@@ -1,11 +1,8 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.AnimatedSprite;
 import com.mygdx.coreGame.GraphicObject;
-import com.mygdx.coreGame.Sprite;
-import com.mygdx.game.GameObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
