@@ -12,5 +12,6 @@ public enum ResourceEnum {
     WAR_BULLET,
     HEALTH_1,
     HEALTH_2,
-    HEALTH_3
+    HEALTH_3,
+    EXPLOSION
 }

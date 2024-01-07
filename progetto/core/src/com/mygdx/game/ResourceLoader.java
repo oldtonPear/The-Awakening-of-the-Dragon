@@ -71,6 +71,13 @@ public class ResourceLoader {
                     mapAnimation.put(index, res);
                 }
             break;
+            case EXPLOSION:
+                res = new Texture[36];
+                for (int i = 0; i < res.length; i++) {
+                    res[i] = new Texture("explosion_" + i/9 + ".png");
+                    mapAnimation.put(index, res);
+                }
+            break;
             default: res = null;
             }
         }  

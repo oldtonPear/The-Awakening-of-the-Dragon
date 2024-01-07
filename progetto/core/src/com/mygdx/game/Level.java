@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 import com.mygdx.entities.Bullet;
 import com.mygdx.entities.Dragon;
+import com.mygdx.entities.Explosion;
 import com.mygdx.entities.Fireball;
 import com.mygdx.entities.Health;
 import com.mygdx.entities.Plane;
@@ -40,6 +41,7 @@ public class Level extends Screen implements Observed{
 
     private LinkedList<Fireball> fireballs;
     private LinkedList<Bullet> bullets;
+    private LinkedList<Explosion> explosions;
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
@@ -71,6 +73,7 @@ public class Level extends Screen implements Observed{
 		}
 		dragon = new Dragon();
         fireballs = new LinkedList<>();
+        explosions = new LinkedList<>();
         bullets = new LinkedList<>();
 
         health = new Health();
@@ -89,6 +92,9 @@ public class Level extends Screen implements Observed{
 
         for (Bullet bullet : bullets) {
             bullet.draw(sb);
+        }
+        for (Explosion expl : explosions) {
+            expl.draw(sb);
         }
         
 		for (int i = 0; i < planes.length; i++) {
@@ -114,6 +120,7 @@ public class Level extends Screen implements Observed{
         for (Bullet bullet : bullets) {
             bullet.update();
         }
+
         dragon.update();
 
         for (int i = 0; i < planes.length; i++) {
@@ -124,6 +131,14 @@ public class Level extends Screen implements Observed{
         if(backgroundY <= -height) backgroundY += height;
 
         checkAndManageCollisions();
+
+        LinkedList<Explosion> removed = new LinkedList<Explosion>();
+        for (Explosion expl : explosions) {
+            if(expl.getCurrentAnimationState() > 36) removed.add(expl);
+            expl.update();
+        }
+        explosions.removeAll(removed);
+
 
     } 
 
@@ -146,6 +161,7 @@ public class Level extends Screen implements Observed{
                             break;
                         }
                         if(f.collidesWidth(planes[j])){
+                            explosions.add(new Explosion(planes[j].getX(), planes[j].getY()));
                             planes[j] = null;
                             removed.add(f);
                             break;
