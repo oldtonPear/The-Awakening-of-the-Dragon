@@ -17,7 +17,7 @@ public class Dragon extends GameObject{
     public Dragon(){
         super();
         sprite = new AnimatedSprite(ResourceLoader.getAnimation(ResourceEnum.DRAGON));
-        this.setX(0f);
+        this.setX(1.4f);
 		this.setY(0);
 		this.setWidth(1f);
 

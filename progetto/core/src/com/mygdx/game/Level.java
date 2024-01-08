@@ -49,6 +49,8 @@ public class Level extends Screen implements Observed{
 
     private boolean superAttackIsReady;
 
+    private boolean gameContinuing;
+
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
@@ -95,6 +97,8 @@ public class Level extends Screen implements Observed{
 			fallingHearts[i].setX((float)(Math.random()*3));
         }
         superAttackIsReady = false;
+
+        gameContinuing = true;
     }
 
     @Override
@@ -155,13 +159,15 @@ public class Level extends Screen implements Observed{
 
         dragon.update();
 
+        gameContinuing = false;
         for (int i = 0; i < planes.length; i++) {
             if(planes[i] != null){
+                gameContinuing = true;
                 planes[i].update();
                 if(planes[i].getY() < -2) spawnPlane(planes[i]);
-            } 
-            
+            }
         }
+        if(!gameContinuing) notifyObservers();
 
         for (int i = 0; i < fallingHearts.length; i++) {
             if(fallingHearts[i] != null) fallingHearts[i].update();
