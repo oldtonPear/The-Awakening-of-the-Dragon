@@ -71,6 +71,9 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 			if(character == ' ' && isMenuActivated){
 				toggleMenu();
 			} 
+			if(character == 'q' && !isMenuActivated){
+				((Level) currentScreen).executeSuperAttack();
+			} 
 			((Level) currentScreen).moveDragon(character);
 		}catch(ClassCastException e){
 

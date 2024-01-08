@@ -1,15 +1,23 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.ResourceEnum;
+import com.mygdx.game.ResourceLoader;
 
-public abstract class Plane extends GameObject{
+public class Falling_heart extends GameObject{
 
     protected Sprite sprite;
 
-    Plane(){
+    public Falling_heart(){
         super();
+        sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.FALLING_HEART));
+        setWidth(0.25f);
+
+        setRadius(0.12f);
+        setBarycenter(0.12f, 0.12f);
     }
 
     @Override
@@ -52,6 +60,7 @@ public abstract class Plane extends GameObject{
      */
     @Override
     public void update(){
-        this.setY(this.getY()-0.008f);
+        if(this.getY()<-2)this.setY((float)(3.5+Math.random()*50));
+        else this.setY(this.getY()-0.008f);
     }
 }

@@ -1,15 +1,28 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.GameObject;
+import com.mygdx.game.ResourceEnum;
+import com.mygdx.game.ResourceLoader;
 
-public abstract class Plane extends GameObject{
+public class Chest extends GameObject{
 
     protected Sprite sprite;
+    private boolean picked;
 
-    Plane(){
+    public Chest(float planeX, float planeY){
         super();
+        sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.CHEST));
+        setWidth(0.25f);
+
+        setRadius(0.12f);
+        setBarycenter(0.12f, 0.14f);
+
+        setX(planeX+0.13f);
+        setY(planeY);
+        picked = false;
     }
 
     @Override
@@ -35,6 +48,17 @@ public abstract class Plane extends GameObject{
         sprite.setHeight(height);
     }
 
+    public boolean isPicked() {
+        return picked;
+    }
+    public void setPicked(boolean picked) {
+        this.picked = picked;
+        if(picked){
+            this.setX(3.6f);
+		    this.setY(2.4f);
+        }
+    }
+
     /**
      * draws plane
      * @param spriteBatch
@@ -52,6 +76,7 @@ public abstract class Plane extends GameObject{
      */
     @Override
     public void update(){
-        this.setY(this.getY()-0.008f);
+        if(!isPicked()) this.setY(this.getY()-0.005f);
     }
+    
 }

@@ -13,5 +13,7 @@ public enum ResourceEnum {
     HEALTH_1,
     HEALTH_2,
     HEALTH_3,
-    EXPLOSION
+    EXPLOSION,
+    FALLING_HEART,
+    CHEST
 }

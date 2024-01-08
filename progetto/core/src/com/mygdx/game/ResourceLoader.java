@@ -46,6 +46,12 @@ public class ResourceLoader {
             case HEALTH_3:
                 mapTexture.put(index, new Texture("Health3.png"));
             break;
+            case FALLING_HEART:
+                mapTexture.put(index, new Texture("falling_heart.png"));
+            break;
+            case CHEST:
+                mapTexture.put(index, new Texture("chest.png"));
+            break;
 
             default: return null;
             }

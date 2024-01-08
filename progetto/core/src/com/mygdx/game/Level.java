@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 import com.mygdx.entities.Bullet;
+import com.mygdx.entities.Chest;
 import com.mygdx.entities.Dragon;
 import com.mygdx.entities.Explosion;
+import com.mygdx.entities.Falling_heart;
 import com.mygdx.entities.Fireball;
 import com.mygdx.entities.Health;
 import com.mygdx.entities.Plane;
@@ -38,10 +40,15 @@ public class Level extends Screen implements Observed{
     
     private Dragon dragon;
 	private Plane[] planes;
+    private Falling_heart[] fallingHearts;
 
     private LinkedList<Fireball> fireballs;
     private LinkedList<Bullet> bullets;
     private LinkedList<Explosion> explosions;
+    private Chest chest;
+
+    private boolean superAttackIsReady;
+
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
@@ -62,29 +69,38 @@ public class Level extends Screen implements Observed{
         this.skyPicture = ResourceLoader.getTexture(ResourceEnum.SKY);
         
         planes = new Plane[20];
-		for (int i = 0; i < planes.length; i++) {
-
-			if(i%2==0) planes[i] = new Stealth_plane();
-            else planes[i] = new War_plane();
-
-            planes[i].setY((float)(3.5+Math.random()*30));
-			planes[i].setX((float)(Math.random()*3));
-			
+        for (int i = 0; i < planes.length; i++) {
+			if(i%2 == 0){
+                planes[i] = new Stealth_plane();
+                spawnPlane(planes[i]);
+            } 
+            else{
+                planes[i] = new War_plane();
+                spawnPlane(planes[i]);
+            } 
 		}
+		
+
 		dragon = new Dragon();
         fireballs = new LinkedList<>();
         explosions = new LinkedList<>();
         bullets = new LinkedList<>();
 
         health = new Health();
+
+        fallingHearts = new Falling_heart[2];
+        for (int i = 0; i < fallingHearts.length; i++) {
+            fallingHearts[i] = new Falling_heart();
+            fallingHearts[i].setY((float)(3.5+Math.random()*50));
+			fallingHearts[i].setX((float)(Math.random()*3));
+        }
+        superAttackIsReady = false;
     }
 
     @Override
     public void draw(SpriteBatch sb) {
         sb.draw(skyPicture, 0, backgroundY, width, height);
         sb.draw(skyPicture, 0, backgroundY + height, width, height);
-        
-		dragon.draw(sb);
 
         for (Fireball f : fireballs) {
             f.draw(sb);
@@ -96,18 +112,32 @@ public class Level extends Screen implements Observed{
         for (Explosion expl : explosions) {
             expl.draw(sb);
         }
+
+        for (int i = 0; i < fallingHearts.length; i++) {
+            if(fallingHearts[i] != null) fallingHearts[i].draw(sb);
+        }
         
 		for (int i = 0; i < planes.length; i++) {
             if(planes[i] != null){
 			    planes[i].draw(sb);
-                if(Math.random()<0.01f && planes[i].getY()<3 && planes[i] instanceof Stealth_plane){
+                
+                if(Math.random()<0.01f && planes[i].getY()<3 && planes[i].getY()>1 && planes[i] instanceof Stealth_plane){
                     spawnStealthBullet(planes[i].getX(), planes[i].getY());
                 }
-                if(Math.random()<0.005f && planes[i].getY()<3 && planes[i] instanceof War_plane){
+                if(Math.random()<0.005f && planes[i].getY()<3 && planes[i].getY()>1 && planes[i] instanceof War_plane){
                     spawnWarBullet(planes[i].getX(), planes[i].getY());
+                }
+                if(Math.random()<0.0005 && planes[i].getY()<3 && planes[i].getY() > 1 && chest == null){
+                    chest = new Chest(planes[i].getX(), planes[i].getY());
                 }
             }
 		}
+
+        if(chest != null) chest.draw(sb);
+
+
+        dragon.draw(sb);
+
         health.draw(sb);
     }
 
@@ -121,10 +151,20 @@ public class Level extends Screen implements Observed{
             bullet.update();
         }
 
+        if(chest != null) chest.update();
+
         dragon.update();
 
         for (int i = 0; i < planes.length; i++) {
-            if(planes[i] != null) planes[i].update();
+            if(planes[i] != null){
+                planes[i].update();
+                if(planes[i].getY() < -2) spawnPlane(planes[i]);
+            } 
+            
+        }
+
+        for (int i = 0; i < fallingHearts.length; i++) {
+            if(fallingHearts[i] != null) fallingHearts[i].update();
         }
 
         backgroundY += skySpeed;
@@ -139,13 +179,28 @@ public class Level extends Screen implements Observed{
         }
         explosions.removeAll(removed);
 
-
     } 
 
     /**
      * checks for collisions between objects and manages them
      */
     public void checkAndManageCollisions(){
+
+        for (int i = 0; i < fallingHearts.length; i++) {
+            if(fallingHearts[i] != null){
+                if(fallingHearts[i].collidesWidth(dragon) && nLives < 3){
+                    nLives++;
+                    fallingHearts[i] = null;
+                }
+            }
+        }
+
+        if(chest != null){
+            if(chest.collidesWidth(dragon) || chest.getY() < -2){
+                chest.setPicked(true);
+                superAttackIsReady = true;
+            } 
+        }
 
         for (int j = 0; j < planes.length; j++) {
             if(planes[j] != null){
@@ -241,6 +296,54 @@ public class Level extends Screen implements Observed{
             if(newF.collidesWidth(s)) create = false;
         }
         if(create) bullets.add(newF);
+    }
+
+    /**
+     * sets the coordinates of the given Plane
+     * @param p
+     */
+    public void spawnPlane(Plane p){
+        
+        p.setX((float)(Math.random()*3));
+        p.setY((float)(3.5+Math.random()*30));
+
+        boolean insert = true;
+        while(insert){
+            for (int i = 0; i < planes.length; i++) {
+                if(planes[i] != null && planes[i] != p){
+                    if(p.collidesWidth(planes[i])){
+                        insert = false;
+                        break;
+                        
+                    }
+                }
+            }
+            if(insert) break;
+            if(!insert){
+                p.setY((float)(3.5+Math.random()*30));
+                insert = true;
+            } 
+        }
+    }
+
+    /**
+     * shoots the super attack
+     */
+    public void executeSuperAttack(){
+        if(superAttackIsReady){
+            superAttackIsReady = false;
+            chest = null;
+
+            LinkedList<Bullet> removed = new LinkedList<Bullet>();
+            for (Bullet b : bullets) {
+                explosions.add(new Explosion(b.getX(), b.getY()));
+                removed.add(b);
+            }
+            bullets.removeAll(removed);
+            for(int i = 0; i < 40; i++){
+                fireballs.add(new Fireball(0.1f*i - 0.35f, dragon.getY()+0.4f));
+            }
+        }
     }
 
     public void register(Observer o){

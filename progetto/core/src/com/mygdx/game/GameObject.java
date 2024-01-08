@@ -85,34 +85,7 @@ public abstract class GameObject extends GraphicObject implements Updateable{
         } 
         return false;
     }
-
-    /**
-     * registers a new observer
-     * @see Observed
-     */
-    public void register(Observer o){
-        if(this.observers.size() == 0)
-        observers.add(o);
-    }
-
-    /**
-     * unregisters an observer
-     * @see Observed
-     */
-    public void unregister(Observer o){
-        observers.remove(0);
-    }
-
-    /**
-     * notifies every observer...observing
-     * @see Observed
-     */
-    public void notifyObservers(String s){
-        if(this instanceof Dragon){
-            observers.getFirst().updateObserver();
-        }
-    }
-
+    
     /**
      * draws the GameObject
      * @see Drawable
