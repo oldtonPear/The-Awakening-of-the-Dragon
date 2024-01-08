@@ -35,6 +35,8 @@ public class Level extends Screen implements Observed{
     private Texture skyPicture;
     
     private int nLives;
+
+    private boolean gameContinuing;
     
     private Dragon dragon;
 	private Plane[] planes;
@@ -77,6 +79,8 @@ public class Level extends Screen implements Observed{
         bullets = new LinkedList<>();
 
         health = new Health();
+
+	gameContinuing = true;
     }
 
     @Override
@@ -123,9 +127,14 @@ public class Level extends Screen implements Observed{
 
         dragon.update();
 
+	gameContinuing = false;
         for (int i = 0; i < planes.length; i++) {
-            if(planes[i] != null) planes[i].update();
+            if(planes[i] != null){
+		planes[i].update();
+		gameContinuing = true;
+	    }
         }
+	if(!gameContinuing) notifyObservers();
 
         backgroundY += skySpeed;
         if(backgroundY <= -height) backgroundY += height;
