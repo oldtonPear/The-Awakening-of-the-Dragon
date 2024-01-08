@@ -327,7 +327,7 @@ public class Level extends Screen implements Observed{
     }
 
     /**
-     * shoots the super attack
+     * shoots the Super Attack
      */
     public void executeSuperAttack(){
         if(superAttackIsReady){
