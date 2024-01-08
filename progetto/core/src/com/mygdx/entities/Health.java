@@ -8,7 +8,7 @@ import com.mygdx.game.ResourceLoader;
 
 public class Health extends GraphicObject {
 
-    protected Sprite sprite;
+    private Sprite sprite;
 
     public Health(){
         super();
@@ -62,28 +62,22 @@ public class Health extends GraphicObject {
                 return false;
             case 1:
                 sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.HEALTH_1));
-                this.setX(3.2f);
-		        this.setY(2.7f);
-		        this.setWidth(0.8f);
                 break;
 
             case 2:
                 sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.HEALTH_2));
-                this.setX(3.2f);
-		        this.setY(2.7f);
-		        this.setWidth(0.8f);
                 break;
 
             case 3:
                 sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.HEALTH_3));
-                this.setX(3.2f);
-		        this.setY(2.7f);
-		        this.setWidth(0.8f);
                 break;
         
             default:
                 break;
         }
+        this.setX(3.2f);
+		this.setY(2.7f);
+		this.setWidth(0.8f);
         return true;
     }
 }

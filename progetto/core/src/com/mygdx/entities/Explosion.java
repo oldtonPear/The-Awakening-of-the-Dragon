@@ -8,9 +8,9 @@ import com.mygdx.game.ResourceLoader;
 
 public class Explosion extends GraphicObject{
 
-    protected AnimatedSprite sprite;
+    private AnimatedSprite sprite;
 
-    int currentAnimationState;
+    private int currentAnimationState;
 
     public Explosion(float planeX, float planeY){
         super();

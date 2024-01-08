@@ -9,7 +9,7 @@ import com.mygdx.game.ResourceLoader;
 
 public class Chest extends GameObject{
 
-    protected Sprite sprite;
+    private Sprite sprite;
     private boolean picked;
 
     public Chest(float planeX, float planeY){

@@ -35,26 +35,25 @@ public class Level extends Screen implements Observed{
     private float height;
     
     private Texture skyPicture;
-    
-    private int nLives;
-    
+
+    private Chest chest;
     private Dragon dragon;
+    private Health health;
+
 	private Plane[] planes;
     private Falling_heart[] fallingHearts;
 
     private LinkedList<Fireball> fireballs;
     private LinkedList<Bullet> bullets;
     private LinkedList<Explosion> explosions;
-    private Chest chest;
+
+    private int nLives;
 
     private boolean superAttackIsReady;
-
     private boolean gameContinuing;
 
 
     private LinkedList<Observer> observers = new LinkedList<>();
-
-    private Health health;
 
     Level(String name, float height){
         super();

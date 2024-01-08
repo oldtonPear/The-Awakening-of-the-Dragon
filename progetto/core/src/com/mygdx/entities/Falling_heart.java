@@ -9,7 +9,7 @@ import com.mygdx.game.ResourceLoader;
 
 public class Falling_heart extends GameObject{
 
-    protected Sprite sprite;
+    private Sprite sprite;
 
     public Falling_heart(){
         super();

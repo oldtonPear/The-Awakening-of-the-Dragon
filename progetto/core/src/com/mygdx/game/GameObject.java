@@ -1,20 +1,15 @@
 package com.mygdx.game;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.coreGame.GraphicObject;
 import com.mygdx.coreGame.Updateable;
-import com.mygdx.entities.Dragon;
 
 public abstract class GameObject extends GraphicObject implements Updateable{
 
     protected Vector2 barycenter;
 
     protected float radius;
-
-    private LinkedList<Observer> observers = new LinkedList<>();
 
     public GameObject() {
         super();
