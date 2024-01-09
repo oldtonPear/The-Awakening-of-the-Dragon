@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import java.util.LinkedList;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
@@ -119,6 +120,8 @@ public class Level extends Screen implements Observed{
         for (int i = 0; i < fallingHearts.length; i++) {
             if(fallingHearts[i] != null) fallingHearts[i].draw(sb);
         }
+
+        if(chest != null) chest.draw(sb);
         
 		for (int i = 0; i < planes.length; i++) {
             if(planes[i] != null){
@@ -136,12 +139,9 @@ public class Level extends Screen implements Observed{
             }
 		}
 
-        if(chest != null) chest.draw(sb);
-
+        health.draw(sb);
 
         dragon.draw(sb);
-
-        health.draw(sb);
     }
 
     public void update(){
@@ -154,7 +154,10 @@ public class Level extends Screen implements Observed{
             bullet.update();
         }
 
-        if(chest != null) chest.update();
+        if(chest != null){
+            chest.update();
+            if(chest.getY()<-2) chest = null;
+        } 
 
         dragon.update();
 
@@ -184,6 +187,8 @@ public class Level extends Screen implements Observed{
         }
         explosions.removeAll(removed);
 
+
+        
     } 
 
     /**
@@ -196,14 +201,18 @@ public class Level extends Screen implements Observed{
                 if(fallingHearts[i].collidesWidth(dragon) && nLives < 3){
                     nLives++;
                     fallingHearts[i] = null;
+                    Sound hS = ResourceLoader.getSound(ResourceEnum.CHEST_SOUND);
+                    hS.play();
                 }
             }
         }
 
         if(chest != null){
-            if(chest.collidesWidth(dragon) || chest.getY() < -2){
+            if(chest.collidesWidth(dragon)){
                 chest.setPicked(true);
                 superAttackIsReady = true;
+                Sound cS = ResourceLoader.getSound(ResourceEnum.CHEST_SOUND);
+                cS.play();
             } 
         }
 
@@ -216,12 +225,14 @@ public class Level extends Screen implements Observed{
                 else{
                     LinkedList<Fireball> removed = new LinkedList<Fireball>();
                     for (Fireball f : fireballs) {
-                        if(f.getY() > 4){
+                        if(f.getY() > 3.2f){
                             removed.add(f);
                             break;
                         }
                         if(f.collidesWidth(planes[j])){
                             explosions.add(new Explosion(planes[j].getX(), planes[j].getY()));
+                            Sound exp = ResourceLoader.getSound(ResourceEnum.EXPLOSION_SOUND);
+                            exp.play();
                             planes[j] = null;
                             removed.add(f);
                             break;
@@ -238,6 +249,8 @@ public class Level extends Screen implements Observed{
                 }
                 else if(b.collidesWidth(dragon)){
                     removed.add(b);
+                    Sound pS = ResourceLoader.getSound(ResourceEnum.PROJECTILE_SOUND);
+                    pS.play();
                     if(b instanceof Stealth_bullet) nLives--;
                     else nLives = nLives -2;
                 }
@@ -272,7 +285,12 @@ public class Level extends Screen implements Observed{
         for (Fireball f : fireballs) {
             if(f.collidesWidth(newF)) create = false;
         }
-        if(create) fireballs.add(newF);
+        if(create){
+            Sound fs = ResourceLoader.getSound(ResourceEnum.FIREBALL_SOUND);
+            fs.play();
+            fireballs.add(newF);
+            
+        } 
     }
 
     /**
@@ -339,16 +357,15 @@ public class Level extends Screen implements Observed{
             superAttackIsReady = false;
             chest = null;
 
-            LinkedList<Bullet> removed = new LinkedList<Bullet>();
-            for (Bullet b : bullets) {
-                explosions.add(new Explosion(b.getX(), b.getY()));
-                removed.add(b);
-            }
-            bullets.removeAll(removed);
+            explosions.clear();
+
             for(int i = 0; i < 40; i++){
                 fireballs.add(new Fireball(0.1f*i - 0.35f, dragon.getY()+0.4f));
             }
+            Sound fs = ResourceLoader.getSound(ResourceEnum.FIREBALL_SOUND);
+            fs.play();
         }
+        
     }
 
     public void register(Observer o){

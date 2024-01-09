@@ -15,5 +15,10 @@ public enum ResourceEnum {
     HEALTH_3,
     EXPLOSION,
     FALLING_HEART,
-    CHEST
+    CHEST,
+    MUSIC,
+    EXPLOSION_SOUND,
+    FIREBALL_SOUND,
+    PROJECTILE_SOUND,
+    CHEST_SOUND
 }

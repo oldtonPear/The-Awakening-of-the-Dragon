@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import java.util.EnumMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -96,10 +97,26 @@ public class ResourceLoader {
         Sound res = null;
         if(!mapSound.containsKey(index)){
             switch (index) {
-            /*case AUDIO_COIN:
-                res = Gdx.audio.newSound(Gdx.files.internal("audio/coin.wav"));
+            case MUSIC:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto\\sounds\\music.mp3"));
                 mapSound.put(index, res);
-            break;*/
+            break;
+            case EXPLOSION_SOUND:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto\\sounds\\explosion.mp3"));
+                mapSound.put(index, res);
+            break;
+            case FIREBALL_SOUND:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto\\sounds\\fireball.mp3"));
+                mapSound.put(index, res);
+            break;
+            case PROJECTILE_SOUND:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto\\sounds\\projectile_sound.mp3"));
+                mapSound.put(index, res);
+            break;
+            case CHEST_SOUND:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto\\sounds\\chest.mp3"));
+                mapSound.put(index, res);
+            break;
             default: res = null;
             }
         }

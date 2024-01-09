@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 	private Camera cam;
 	private Screen currentScreen;
+
+	private Sound music;
 
 	private boolean isMenuActivated;
 	
@@ -31,6 +34,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 		isMenuActivated = true;
 		currentScreen = new Menu("Level", camwidth * Parameters.getInverseAspectRatio());
+
+		music = ResourceLoader.getSound(ResourceEnum.MUSIC);
 	}
 
 	@Override
@@ -122,8 +127,10 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 		if(isMenuActivated){
 			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
 			((Level) currentScreen).register(this);
+			music.loop();
 		} 
 		else{
+			music.stop();
 			currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
 		} 
 		isMenuActivated =! isMenuActivated;
