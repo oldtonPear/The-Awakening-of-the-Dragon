@@ -269,8 +269,12 @@ public class Level extends Screen implements Observed{
                     removed.add(b);
                     Sound pS = ResourceLoader.getSound(ResourceEnum.PROJECTILE_SOUND);
                     pS.play();
+                    System.out.println("collisione");
                     if(b instanceof Stealth_bullet) nLives--;
-                    else nLives = nLives -2;
+                    else{
+                        if(nLives >= 2) nLives = nLives -2;
+                        else nLives--;
+                    } 
                 }
             }
         bullets.removeAll(removed);

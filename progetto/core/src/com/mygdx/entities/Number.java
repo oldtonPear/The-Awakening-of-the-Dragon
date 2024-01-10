@@ -90,6 +90,4 @@ public class Number extends GraphicObject{
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
     }
-
-
 }

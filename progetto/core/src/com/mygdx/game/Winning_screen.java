@@ -6,37 +6,29 @@ import com.mygdx.coreGame.Parameters;
 
 public class Winning_screen extends Screen{
 
-    private int timeOnScreen;
-
     private float backgroundY;
 
     private float width;
     private float height;
     
-    private Texture menuTexture;
+    private Texture texture;
 
     Winning_screen(String name, float height){
         super();
-        this.menuTexture = ResourceLoader.getTexture(ResourceEnum.YOU_WIN);
+        this.texture = ResourceLoader.getTexture(ResourceEnum.YOU_WIN);
         this.backgroundY = 0;
 
         this.height = height;
         this.width = height * Parameters.getAspectRatio();
 
-        timeOnScreen = 0;
-    }
-
-    public int getTimeOnScreen() {
-        return timeOnScreen;
     }
 
     @Override
     public void draw(SpriteBatch sb) {
-        sb.draw(menuTexture, 0, backgroundY, width, height);
+        sb.draw(texture, 0, backgroundY, width, height);
     }
 
     @Override
     public void update() {
-        timeOnScreen++;
     }
 }
