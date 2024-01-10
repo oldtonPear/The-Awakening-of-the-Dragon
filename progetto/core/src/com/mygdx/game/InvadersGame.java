@@ -54,7 +54,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 		if(currentScreen instanceof Losing_screen || currentScreen instanceof Winning_screen){
 			timepassed++;
-			if(timepassed >= 100) enterMenu();
+			if(timepassed >= 300) enterMenu();
 		}
 
 		batch.end();
