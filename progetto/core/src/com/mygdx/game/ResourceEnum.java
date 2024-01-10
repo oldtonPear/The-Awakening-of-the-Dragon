@@ -21,5 +21,17 @@ public enum ResourceEnum {
     FIREBALL_SOUND,
     PROJECTILE_SOUND,
     CHEST_SOUND,
-    SCORE_FRAME
+    SCORE_FRAME,
+    ZERO,
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    YOU_LOSE,
+    YOU_WIN
 }

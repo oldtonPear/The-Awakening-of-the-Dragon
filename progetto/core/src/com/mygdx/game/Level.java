@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.audio.Sound;
@@ -13,6 +14,7 @@ import com.mygdx.entities.Explosion;
 import com.mygdx.entities.Falling_heart;
 import com.mygdx.entities.Fireball;
 import com.mygdx.entities.Health;
+import com.mygdx.entities.Number;
 import com.mygdx.entities.Plane;
 import com.mygdx.entities.ScoreFrame;
 import com.mygdx.entities.Stealth_bullet;
@@ -56,6 +58,7 @@ public class Level extends Screen implements Observed{
     private boolean superAttackIsReady;
     private int score;
 
+    private HashMap<Integer, LinkedList<Number>> drawedScore;
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
@@ -104,7 +107,12 @@ public class Level extends Screen implements Observed{
 
         score = 0;
 
-        
+        drawedScore = new HashMap<>();
+        for (int i = 0; i < planes.length; i++) {
+            drawedScore.put(i, new LinkedList<Number>());
+            drawedScore.get(i).add(new Number(i/10, true));
+            drawedScore.get(i).add(new Number(i%10, false));
+        }
     }
 
     @Override
@@ -150,6 +158,11 @@ public class Level extends Screen implements Observed{
         dragon.draw(sb);
 
         scoreFrame.draw(sb);
+
+        if(score >= 20) notifyObservers();
+        else for (Number n : drawedScore.get(score)) {
+            n.draw(sb);
+        }
     }
 
     public void update(){
@@ -192,8 +205,6 @@ public class Level extends Screen implements Observed{
             expl.update();
         }
         explosions.removeAll(removed);
-
-        scoreFrame.update();
         
     } 
 
@@ -231,7 +242,7 @@ public class Level extends Screen implements Observed{
                 else{
                     LinkedList<Fireball> removed = new LinkedList<Fireball>();
                     for (Fireball f : fireballs) {
-                        if(f.getY() > 3.2f){
+                        if(f.getY() > 3f){
                             removed.add(f);
                             break;
                         }
@@ -240,7 +251,6 @@ public class Level extends Screen implements Observed{
                             Sound exp = ResourceLoader.getSound(ResourceEnum.EXPLOSION_SOUND);
                             exp.play();
                             score++;
-                            System.out.println(score);
                             planes[j] = null;
                             removed.add(f);
                             break;
@@ -337,7 +347,7 @@ public class Level extends Screen implements Observed{
     public void spawnPlane(Plane p){
         
         p.setX((float)(Math.random()*3));
-        p.setY((float)(3.5+Math.random()*30));
+        p.setY((float)(4+Math.random()*25-score));
 
         boolean insert = true;
         while(insert){
@@ -352,7 +362,7 @@ public class Level extends Screen implements Observed{
             }
             if(insert) break;
             if(!insert){
-                p.setY((float)(3.5+Math.random()*30));
+                p.setY((float)(4+Math.random()*25-score));
                 insert = true;
             } 
         }
@@ -366,11 +376,7 @@ public class Level extends Screen implements Observed{
             superAttackIsReady = false;
             chest = null;
 
-        LinkedList<Explosion> removed = new LinkedList<Explosion>();
-        for (Explosion expl : explosions) {
-            removed.add(expl);
-        }
-        explosions.removeAll(removed);
+        bullets.clear();  
 
         for(int i = 0; i < 40; i++){
             fireballs.add(new Fireball(0.1f*i - 0.35f, dragon.getY()+0.4f));
@@ -379,6 +385,10 @@ public class Level extends Screen implements Observed{
         fs.play();
         }
         
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void register(Observer o){

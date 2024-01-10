@@ -13,8 +13,8 @@ public class ScoreFrame extends GraphicObject{
         super();
         sprite = new Sprite(ResourceLoader.getTexture(ResourceEnum.SCORE_FRAME));
         this.setX(0.01f);
-		this.setY(2.69f);
-		this.setWidth(0.3f);
+		this.setY(2.54f);
+		this.setWidth(0.45f);
     }
 
     @Override
@@ -49,7 +49,4 @@ public class ScoreFrame extends GraphicObject{
         sprite.draw(sb);
     }
 
-    public void update(){
-
-    }
 }

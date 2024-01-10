@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 
@@ -19,7 +21,9 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 	private Sound music;
 
-	private boolean isMenuActivated;
+	private int currentKeyPressed;
+
+	private int timepassed;
 	
 	@Override
 	public void create () {
@@ -31,8 +35,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 		cam.position.set(camwidth * 0.5f, camHeight * 0.5f, 0);
 
 		batch = new SpriteBatch();
-
-		isMenuActivated = true;
+		
 		currentScreen = new Menu("Level", camwidth * Parameters.getInverseAspectRatio());
 
 		music = ResourceLoader.getSound(ResourceEnum.MUSIC);
@@ -49,6 +52,11 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 		currentScreen.update();
 		currentScreen.draw(batch);
 
+		if(currentScreen instanceof Losing_screen || currentScreen instanceof Winning_screen){
+			timepassed++;
+			if(timepassed >= 100) enterMenu();
+		}
+
 		batch.end();
 	}
 	
@@ -59,19 +67,22 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 	@Override
 	public boolean keyDown(int keycode) {
-		System.out.println(keycode);
-		if(!isMenuActivated){
-			((Level) currentScreen).moveDragon(keycode);
+		if(currentScreen instanceof Level){
+			if(keycode == 29 || keycode == 32){
+				((Level) currentScreen).moveDragon(keycode);
+				currentKeyPressed = keycode;
+			}
+			
 			if(keycode == 62){
 					((Level) currentScreen).spawnFireball();
 				}
-				else if(keycode == 66){
+			else if(keycode == 66){
 				((Level) currentScreen).executeSuperAttack();
 				} 
 		} 
 		else{
 			if(keycode == 62){
-				toggleMenu();
+				enterLevel();
 			}
 		}
 		return false;
@@ -79,17 +90,17 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(!isMenuActivated){
-			if(keycode == 29 || keycode == 32){
+		if(currentScreen instanceof Level){
+			if(keycode == currentKeyPressed){
 				((Level) currentScreen).moveDragon(0);
 			}
 		} 
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -128,17 +139,29 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	 * toggles the current state of the screen
 	 * Level-Menu
 	 */
-	public void toggleMenu(){
-		if(isMenuActivated){
+	public void enterLevel(){
+		if(currentScreen instanceof Menu){
 			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
 			((Level) currentScreen).register(this);
 			music.loop();
 		} 
-		else{
-			music.stop();
-			currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
-		} 
-		isMenuActivated =! isMenuActivated;
+	}
+	public void enterMenu(){
+		music.stop();
+		currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
+	}
+
+	public void winningLosingScreen(){
+		music.stop();
+		if(currentScreen instanceof Level){
+			int score = ((Level) currentScreen).getScore();
+			if(score >= 20){
+				currentScreen = new Winning_screen("YOU WIN!", camwidth * Parameters.getInverseAspectRatio());
+			}
+			else{
+				currentScreen = new Losing_screen("YOU LOSE!", camwidth * Parameters.getInverseAspectRatio());
+			}
+		}
 	}
 
 	/**
@@ -148,6 +171,6 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	 */
 	@Override
 	public void updateObserver() {
-		toggleMenu();
+		winningLosingScreen();
 	}
 }
