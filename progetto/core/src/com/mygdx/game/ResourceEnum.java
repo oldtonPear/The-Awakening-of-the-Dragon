@@ -20,5 +20,6 @@ public enum ResourceEnum {
     EXPLOSION_SOUND,
     FIREBALL_SOUND,
     PROJECTILE_SOUND,
-    CHEST_SOUND
+    CHEST_SOUND,
+    SCORE_FRAME
 }

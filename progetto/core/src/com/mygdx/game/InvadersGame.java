@@ -59,31 +59,36 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 	@Override
 	public boolean keyDown(int keycode) {
+		System.out.println(keycode);
+		if(!isMenuActivated){
+			((Level) currentScreen).moveDragon(keycode);
+			if(keycode == 62){
+					((Level) currentScreen).spawnFireball();
+				}
+				else if(keycode == 66){
+				((Level) currentScreen).executeSuperAttack();
+				} 
+		} 
+		else{
+			if(keycode == 62){
+				toggleMenu();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
+		if(!isMenuActivated){
+			if(keycode == 29 || keycode == 32){
+				((Level) currentScreen).moveDragon(0);
+			}
+		} 
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		try{
-			if(character == 'e' && !isMenuActivated){
-				((Level) currentScreen).spawnFireball();
-			}
-			if(character == ' ' && isMenuActivated){
-				toggleMenu();
-			} 
-			if(character == 'q' && !isMenuActivated){
-				((Level) currentScreen).executeSuperAttack();
-			} 
-			((Level) currentScreen).moveDragon(character);
-		}catch(ClassCastException e){
-
-		}
-		
 		return true;
 	}
 

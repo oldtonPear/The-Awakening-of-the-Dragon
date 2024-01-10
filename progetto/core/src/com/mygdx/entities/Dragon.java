@@ -10,6 +10,13 @@ public class Dragon extends GameObject{
     
     private AnimatedSprite sprite;
     
+    public enum State{
+        HOLD,
+        MOVING_LEFT,
+        MOVING_RIGHT
+    }
+
+    private State currentState;
     /**
      * dragon's default constructor
      * sets automatically x, y, width, radius, barycenter
@@ -23,6 +30,8 @@ public class Dragon extends GameObject{
 
         setRadius(0.4f);
         setBarycenter(0.5f, 0.4f);
+
+        currentState = State.HOLD;
     }
     
 
@@ -48,6 +57,13 @@ public class Dragon extends GameObject{
         sprite.setHeight(height);
     }
 
+    public State getCurrentState() {
+        return currentState;
+    }
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
     /**
      * draws the dragon
      * @param spriteBatch
@@ -66,5 +82,23 @@ public class Dragon extends GameObject{
     @Override
     public void update() {
         sprite.update();
+
+        switch (currentState) {
+            case HOLD:
+                
+                break;
+            case MOVING_LEFT:
+                if(this.getX() > 0f)
+                this.setX(this.getX() - 0.02f);
+                break;
+            case MOVING_RIGHT:
+                if(this.getX() < 4-this.getWidth())
+                this.setX(this.getX() + 0.02f);
+                break;
+        
+            default:
+                break;
+        }
+        
     }
 }
