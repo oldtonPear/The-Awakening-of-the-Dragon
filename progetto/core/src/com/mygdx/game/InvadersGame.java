@@ -19,7 +19,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	private Camera cam;
 	private Screen currentScreen;
 
-	private Sound music;
+	private Sound music_level;
+	private Sound music_menu;
 
 	private int currentKeyPressed;
 
@@ -38,9 +39,12 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 		batch = new SpriteBatch();
 		
-		currentScreen = new Menu("Level", camwidth * Parameters.getInverseAspectRatio());
+		music_level = ResourceLoader.getSound(ResourceEnum.MUSIC_LEVEL);
+		music_menu = ResourceLoader.getSound(ResourceEnum.MENU_MUSIC);
 
-		music = ResourceLoader.getSound(ResourceEnum.MUSIC);
+
+		enterMenu();
+
 
 		nWins = 0;
 	}
@@ -148,18 +152,20 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	 */
 	public void enterLevel(){
 		if(currentScreen instanceof Menu){
+			music_menu.stop();
 			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio(), nWins);
 			((Level) currentScreen).register(this);
-			music.loop();
+			music_level.loop();
 		} 
 	}
 	public void enterMenu(){
-		music.stop();
+		music_level.stop();
+		music_menu.loop();
 		currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
 	}
 
 	public void winningLosingScreen(){
-		music.stop();
+		music_level.stop();
 		if(currentScreen instanceof Level){
 			int score = ((Level) currentScreen).getScore();
 			if(score >= ((Level) currentScreen).nPlanes()){

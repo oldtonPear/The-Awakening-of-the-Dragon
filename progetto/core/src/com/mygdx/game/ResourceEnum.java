@@ -16,7 +16,7 @@ public enum ResourceEnum {
     EXPLOSION,
     FALLING_HEART,
     CHEST,
-    MUSIC,
+    MUSIC_LEVEL,
     EXPLOSION_SOUND,
     FIREBALL_SOUND,
     PROJECTILE_SOUND,
@@ -33,5 +33,6 @@ public enum ResourceEnum {
     EIGHT,
     NINE,
     YOU_LOSE,
-    YOU_WIN
+    YOU_WIN,
+    MENU_MUSIC
 }

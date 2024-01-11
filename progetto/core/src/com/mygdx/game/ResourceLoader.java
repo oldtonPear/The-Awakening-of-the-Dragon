@@ -136,8 +136,8 @@ public class ResourceLoader {
         Sound res = null;
         if(!mapSound.containsKey(index)){
             switch (index) {
-            case MUSIC:
-                res = Gdx.audio.newSound(Gdx.files.internal("progetto/sounds/music.mp3"));
+            case MUSIC_LEVEL:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto/sounds/music_level.mp3"));
                 mapSound.put(index, res);
             break;
             case EXPLOSION_SOUND:
@@ -154,6 +154,10 @@ public class ResourceLoader {
             break;
             case CHEST_SOUND:
                 res = Gdx.audio.newSound(Gdx.files.internal("progetto/sounds/chest.mp3"));
+                mapSound.put(index, res);
+            break;
+            case MENU_MUSIC:
+                res = Gdx.audio.newSound(Gdx.files.internal("progetto/sounds/menu_music.mp3"));
                 mapSound.put(index, res);
             break;
             default: res = null;
