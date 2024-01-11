@@ -57,12 +57,15 @@ public class Level extends Screen implements Observed{
 
     private boolean superAttackIsReady;
     private int score;
+    private int nWins;
+
+    private Number currentLevelNumber;
 
     private HashMap<Integer, LinkedList<Number>> drawedScore;
 
     private LinkedList<Observer> observers = new LinkedList<>();
 
-    Level(String name, float height){
+    Level(String name, float height, int nWins){
         super();
 
         nLives = 3;
@@ -75,8 +78,12 @@ public class Level extends Screen implements Observed{
         this.width = height * Parameters.getAspectRatio();
 
         this.skyPicture = ResourceLoader.getTexture(ResourceEnum.SKY);
-        
-        planes = new Plane[20];
+        this.nWins = nWins;
+
+
+        score = 0;
+
+        planes = new Plane[20 + 10*(nWins)];
         for (int i = 0; i < planes.length; i++) {
 			if(i%2 == 0){
                 planes[i] = new Stealth_plane();
@@ -105,14 +112,18 @@ public class Level extends Screen implements Observed{
         }
         superAttackIsReady = false;
 
-        score = 0;
+        
 
+        //filling the HashMap with numbers 1->planes.length
         drawedScore = new HashMap<>();
         for (int i = 0; i < planes.length; i++) {
-            drawedScore.put(i, new LinkedList<Number>());
-            drawedScore.get(i).add(new Number(i/10, true));
-            drawedScore.get(i).add(new Number(i%10, false));
+            drawedScore.put(i, new LinkedList<Number>());   //inserting numbers into the HashMap
+            drawedScore.get(i).add(new Number(i/10, true)); //fills decimals
+            drawedScore.get(i).add(new Number(i%10, false)); //fills units
         }
+
+        currentLevelNumber = new Number(nWins, false);
+        currentLevelNumber.setX(0.5f);
     }
 
     @Override
@@ -159,10 +170,11 @@ public class Level extends Screen implements Observed{
 
         scoreFrame.draw(sb);
 
-        if(score >= 20) notifyObservers();
+        if(score >= planes.length) notifyObservers();
         else for (Number n : drawedScore.get(score)) {
             n.draw(sb);
         }
+        currentLevelNumber.draw(sb);
     }
 
     public void update(){
@@ -188,7 +200,7 @@ public class Level extends Screen implements Observed{
                 if(planes[i].getY() < -2) spawnPlane(planes[i]);
             }
         }
-        if(score >= 20) notifyObservers();
+        if(score >= planes.length) notifyObservers();
 
         for (int i = 0; i < fallingHearts.length; i++) {
             if(fallingHearts[i] != null) fallingHearts[i].update();
@@ -269,7 +281,6 @@ public class Level extends Screen implements Observed{
                     removed.add(b);
                     Sound pS = ResourceLoader.getSound(ResourceEnum.PROJECTILE_SOUND);
                     pS.play();
-                    System.out.println("collisione");
                     if(b instanceof Stealth_bullet) nLives--;
                     else{
                         if(nLives >= 2) nLives = nLives -2;
@@ -308,7 +319,18 @@ public class Level extends Screen implements Observed{
         for (Fireball f : fireballs) {
             if(f.collidesWidth(newF)) create = false;
         }
+        newF.setRadius(0.9f);
+        newF.setBarycenter(0.0f, 0f);
+        for (Fireball f : fireballs) {
+            if(f.collidesWidth(newF)) create = false;
+        }
+        newF.setBarycenter(0.8f, 0f);
+        for (Fireball f : fireballs) {
+            if(f.collidesWidth(newF)) create = false;
+        }
         if(create){
+            newF.setRadius(0.1f);
+            newF.setBarycenter(0.4f, 0.45f);
             Sound fs = ResourceLoader.getSound(ResourceEnum.FIREBALL_SOUND);
             fs.play();
             fireballs.add(newF);
@@ -351,8 +373,8 @@ public class Level extends Screen implements Observed{
     public void spawnPlane(Plane p){
         
         p.setX((float)(Math.random()*3));
-        p.setY((float)(4+Math.random()*25-score));
-
+        p.setY((float)(4+Math.random()*(20+10f*nWins-score)));
+        System.out.println(p.getY());
         boolean insert = true;
         while(insert){
             for (int i = 0; i < planes.length; i++) {
@@ -366,7 +388,8 @@ public class Level extends Screen implements Observed{
             }
             if(insert) break;
             if(!insert){
-                p.setY((float)(4+Math.random()*25-score));
+                p.setY((float)(4+Math.random()*(20+10f*nWins-score)));
+                System.out.println(p.getY());
                 insert = true;
             } 
         }
@@ -388,7 +411,10 @@ public class Level extends Screen implements Observed{
         Sound fs = ResourceLoader.getSound(ResourceEnum.FIREBALL_SOUND);
         fs.play();
         }
-        
+    }
+
+    public int nPlanes() {
+        return planes.length;
     }
 
     public int getScore() {

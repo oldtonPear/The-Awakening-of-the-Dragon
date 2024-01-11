@@ -24,6 +24,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	private int currentKeyPressed;
 
 	private int timepassed;
+
+	private int nWins;
 	
 	@Override
 	public void create () {
@@ -39,6 +41,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 		currentScreen = new Menu("Level", camwidth * Parameters.getInverseAspectRatio());
 
 		music = ResourceLoader.getSound(ResourceEnum.MUSIC);
+
+		nWins = 0;
 	}
 
 	@Override
@@ -54,7 +58,10 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 
 		if(currentScreen instanceof Losing_screen || currentScreen instanceof Winning_screen){
 			timepassed++;
-			if(timepassed >= 300) enterMenu();
+			if(timepassed >= 300){
+				enterMenu();
+				timepassed = 0;
+			} 
 		}
 
 		batch.end();
@@ -141,7 +148,7 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	 */
 	public void enterLevel(){
 		if(currentScreen instanceof Menu){
-			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio());
+			currentScreen = new Level("Level", camwidth * Parameters.getInverseAspectRatio(), nWins);
 			((Level) currentScreen).register(this);
 			music.loop();
 		} 
@@ -155,10 +162,12 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 		music.stop();
 		if(currentScreen instanceof Level){
 			int score = ((Level) currentScreen).getScore();
-			if(score >= 20){
+			if(score >= ((Level) currentScreen).nPlanes()){
 				currentScreen = new Winning_screen("YOU WIN!", camwidth * Parameters.getInverseAspectRatio());
+				if(nWins < 8) nWins++;
 			}
 			else{
+				nWins = 0;
 				currentScreen = new Losing_screen("YOU LOSE!", camwidth * Parameters.getInverseAspectRatio());
 			}
 		}
