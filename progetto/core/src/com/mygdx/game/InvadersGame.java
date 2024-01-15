@@ -171,10 +171,14 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 			if(score >= ((Level) currentScreen).nPlanes()){
 				currentScreen = new Winning_screen("YOU WIN!", camwidth * Parameters.getInverseAspectRatio());
 				if(nWins < 8) nWins++;
+				Sound wS = ResourceLoader.getSound(ResourceEnum.YOU_WIN_SOUND);
+				wS.play();
 			}
 			else{
 				nWins = 0;
 				currentScreen = new Losing_screen("YOU LOSE!", camwidth * Parameters.getInverseAspectRatio());
+				Sound lS = ResourceLoader.getSound(ResourceEnum.YOU_LOSE_SOUND);
+				lS.play();
 			}
 		}
 	}

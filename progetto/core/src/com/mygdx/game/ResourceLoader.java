@@ -160,6 +160,14 @@ public class ResourceLoader {
                 res = Gdx.audio.newSound(Gdx.files.internal("../sounds/menu_music.mp3"));
                 mapSound.put(index, res);
             break;
+            case YOU_LOSE_SOUND:
+                res = Gdx.audio.newSound(Gdx.files.internal("../sounds/you_lose_sound.mp3"));
+                mapSound.put(index, res);
+            break;
+            case YOU_WIN_SOUND:
+                res = Gdx.audio.newSound(Gdx.files.internal("../sounds/you_win_sound.mp3"));
+                mapSound.put(index, res);
+            break;
             default: res = null;
             }
         }

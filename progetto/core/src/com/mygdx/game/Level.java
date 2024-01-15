@@ -374,7 +374,6 @@ public class Level extends Screen implements Observed{
         
         p.setX((float)(Math.random()*3));
         p.setY((float)(4+Math.random()*(20+10f*nWins-score)));
-        System.out.println(p.getY());
         boolean insert = true;
         while(insert){
             for (int i = 0; i < planes.length; i++) {
@@ -389,7 +388,6 @@ public class Level extends Screen implements Observed{
             if(insert) break;
             if(!insert){
                 p.setY((float)(4+Math.random()*(20+10f*nWins-score)));
-                System.out.println(p.getY());
                 insert = true;
             } 
         }

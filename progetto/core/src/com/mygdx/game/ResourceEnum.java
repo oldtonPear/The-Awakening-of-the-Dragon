@@ -34,5 +34,7 @@ public enum ResourceEnum {
     NINE,
     YOU_LOSE,
     YOU_WIN,
-    MENU_MUSIC
+    MENU_MUSIC, 
+    YOU_WIN_SOUND,
+    YOU_LOSE_SOUND
 }
