@@ -6,6 +6,10 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage Chests for the super attack
+ * @see Level
+ */
 public class Chest extends GameObject{
 
     private Sprite sprite;
@@ -58,10 +62,7 @@ public class Chest extends GameObject{
         }
     }
 
-    /**
-     * draws plane
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
@@ -70,9 +71,7 @@ public class Chest extends GameObject{
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
-    /**
-     * updates plane
-     */
+    
     @Override
     public void update(){
         if(!isPicked()) this.setY(this.getY()-0.005f);

@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 
+/**
+ * screen visualized when you lose
+ */
 public class Losing_screen extends Screen{
 
     private float backgroundY;

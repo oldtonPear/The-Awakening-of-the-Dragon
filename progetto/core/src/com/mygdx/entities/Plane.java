@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.GameObject;
 
+/**
+ * abstract class to manage planes
+ * @see Stealth_plane
+ * @see War_plane
+ * @see Level
+ */
 public abstract class Plane extends GameObject{
 
     protected Sprite sprite;
@@ -35,10 +41,7 @@ public abstract class Plane extends GameObject{
         sprite.setHeight(height);
     }
 
-    /**
-     * draws plane
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
@@ -47,9 +50,7 @@ public abstract class Plane extends GameObject{
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
-    /**
-     * updates plane
-     */
+    
     @Override
     public void update(){
         this.setY(this.getY()-0.008f);

@@ -6,6 +6,10 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage the dragon
+ * @see Level
+ */
 public class Dragon extends GameObject{
     
     private AnimatedSprite sprite;
@@ -17,10 +21,8 @@ public class Dragon extends GameObject{
     }
 
     private State currentState;
-    /**
-     * dragon's default constructor
-     * sets automatically x, y, width, radius, barycenter
-     */
+
+    
     public Dragon(){
         super();
         sprite = new AnimatedSprite(ResourceLoader.getAnimation(ResourceEnum.DRAGON));
@@ -64,10 +66,7 @@ public class Dragon extends GameObject{
         this.currentState = currentState;
     }
 
-    /**
-     * draws the dragon
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
@@ -76,9 +75,7 @@ public class Dragon extends GameObject{
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
-    /**
-     * updates the dragon
-     */
+    
     @Override
     public void update() {
         sprite.update();

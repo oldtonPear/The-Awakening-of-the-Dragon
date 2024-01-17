@@ -85,7 +85,7 @@ public class Level extends Screen implements Observed{
 
         planes = new Plane[20 + 10*(nWins)];
         for (int i = 0; i < planes.length; i++) {
-			if(i%2 == 0){
+			if(i%2 == 0){   //generates planes, one every two is Stealth type, the other is War type
                 planes[i] = new Stealth_plane();
                 spawnPlane(planes[i]);
             } 
@@ -104,6 +104,7 @@ public class Level extends Screen implements Observed{
         health = new Health();
         scoreFrame = new ScoreFrame();
 
+        //initialises falling Hearts
         fallingHearts = new Falling_heart[2];
         for (int i = 0; i < fallingHearts.length; i++) {
             fallingHearts[i] = new Falling_heart();
@@ -126,6 +127,9 @@ public class Level extends Screen implements Observed{
         currentLevelNumber.setX(0.5f);
     }
 
+    /**
+     * draws everything
+     */
     @Override
     public void draw(SpriteBatch sb) {
         sb.draw(skyPicture, 0, backgroundY, width, height);
@@ -152,12 +156,14 @@ public class Level extends Screen implements Observed{
             if(planes[i] != null){
 			    planes[i].draw(sb);
                 
+                //spawns a bullet when a certain condition is met
                 if(Math.random()<0.01f && planes[i].getY()<3 && planes[i].getY()>1 && planes[i] instanceof Stealth_plane){
                     spawnStealthBullet(planes[i].getX(), planes[i].getY());
                 }
                 if(Math.random()<0.005f && planes[i].getY()<3 && planes[i].getY()>1 && planes[i] instanceof War_plane){
                     spawnWarBullet(planes[i].getX(), planes[i].getY());
                 }
+                //spawns a new chest if it is null and you meet certain conditions
                 if(Math.random()<0.0005 && planes[i].getY()<3 && planes[i].getY() > 1 && chest == null){
                     chest = new Chest(planes[i].getX(), planes[i].getY());
                 }
@@ -177,6 +183,9 @@ public class Level extends Screen implements Observed{
         currentLevelNumber.draw(sb);
     }
 
+    /**
+     * updates everything
+     */
     public void update(){
         if(!health.updateNlives(nLives)) notifyObservers();
 
@@ -197,7 +206,7 @@ public class Level extends Screen implements Observed{
         for (int i = 0; i < planes.length; i++) {
             if(planes[i] != null){
                 planes[i].update();
-                if(planes[i].getY() < -2) spawnPlane(planes[i]);
+                if(planes[i].getY() < -0.5) spawnPlane(planes[i]);
             }
         }
         if(score >= planes.length) notifyObservers();
@@ -225,6 +234,7 @@ public class Level extends Screen implements Observed{
      */
     public void checkAndManageCollisions(){
 
+        //checks for collisions o fallingHearts
         for (int i = 0; i < fallingHearts.length; i++) {
             if(fallingHearts[i] != null){
                 if(fallingHearts[i].collidesWidth(dragon) && nLives < 3){
@@ -236,6 +246,7 @@ public class Level extends Screen implements Observed{
             }
         }
 
+        //checks for collisions on chest
         if(chest != null){
             if(chest.collidesWidth(dragon)){
                 chest.setPicked(true);
@@ -245,6 +256,7 @@ public class Level extends Screen implements Observed{
             } 
         }
 
+        // checks for collisions on planes
         for (int j = 0; j < planes.length; j++) {
             if(planes[j] != null){
                 if(dragon.collidesWidth(planes[j])){
@@ -272,6 +284,8 @@ public class Level extends Screen implements Observed{
                 } 
             }
         }
+
+        //checks for collisions on every bullet
         LinkedList<Bullet> removed = new LinkedList<Bullet>();
             for (Bullet b : bullets) {
                 if(b.getY() < -2){

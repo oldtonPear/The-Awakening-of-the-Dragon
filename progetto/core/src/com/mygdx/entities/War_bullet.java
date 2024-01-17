@@ -5,6 +5,11 @@ import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage bullets spawned by War planes
+ * @see War_plane
+ * @see Level
+ */
 public class War_bullet extends Bullet{
     
     public War_bullet(float planeX, float planeY) {

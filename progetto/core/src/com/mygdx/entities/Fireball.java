@@ -7,14 +7,16 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage fireballs spawned by the dragon
+ * @see Dragon
+ * @see Level
+ */
 public class Fireball extends GameObject{
     
     private AnimatedSprite sprite;
     
-    /**
-     * dragon's default constructor
-     * sets automatically x, y, width, radius, barycenter
-     */
+    
     public Fireball(float x, float y){
         super();
         sprite = new AnimatedSprite(ResourceLoader.getAnimation(ResourceEnum.FIREBALL));
@@ -49,10 +51,7 @@ public class Fireball extends GameObject{
         sprite.setHeight(height);
     }
 
-    /**
-     * draws the dragon
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
@@ -61,9 +60,7 @@ public class Fireball extends GameObject{
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
-    /**
-     * updates the dragon
-     */
+    
     @Override
     public void update() {
         sprite.update();

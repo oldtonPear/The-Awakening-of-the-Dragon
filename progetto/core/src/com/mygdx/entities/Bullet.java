@@ -4,6 +4,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.GameObject;
 
+/**
+ * class to manage Bullets spawnd by planes
+ * abstract in order to be specialized
+ * @see War_bullet
+ * @see Stealth_bullet
+ * @see Plane
+ * @see Level
+ */
 public abstract class Bullet extends GameObject{
 
     protected Sprite sprite;
@@ -35,10 +43,7 @@ public abstract class Bullet extends GameObject{
         sprite.setHeight(height);
     }
 
-    /**
-     * draws plane
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
@@ -47,9 +52,7 @@ public abstract class Bullet extends GameObject{
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
-    /**
-     * updates plane
-     */
+    
     @Override
     public void update(){
         this.setY(this.getY()-0.015f);

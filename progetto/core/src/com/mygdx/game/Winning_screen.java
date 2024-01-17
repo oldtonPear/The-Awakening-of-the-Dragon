@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 
+/**screen visualized when you win */
 public class Winning_screen extends Screen{
 
     private float backgroundY;

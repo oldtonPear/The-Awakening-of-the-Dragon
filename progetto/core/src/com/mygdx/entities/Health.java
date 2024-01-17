@@ -6,6 +6,10 @@ import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage health
+ * @see Level
+ */
 public class Health extends GraphicObject {
 
     private Sprite sprite;
@@ -51,7 +55,6 @@ public class Health extends GraphicObject {
     }
 
     /**
-     * automatically calls update
      * updates current Sprite
      * @return true if everything is fine
      * @return false if the number of lives is 0
