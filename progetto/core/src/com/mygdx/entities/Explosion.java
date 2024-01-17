@@ -6,6 +6,11 @@ import com.mygdx.coreGame.GraphicObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage explosions born from the despawn of a Plane
+ * @see Plane
+ * @see Level
+ */
 public class Explosion extends GraphicObject{
 
     private AnimatedSprite sprite;
@@ -48,18 +53,13 @@ public class Explosion extends GraphicObject{
         return currentAnimationState;
     }
 
-    /**
-     * draws Explosion
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
     }
 
-    /**
-     * updates animation
-     */
+    
     public void update(){
         sprite.update();
         currentAnimationState++;

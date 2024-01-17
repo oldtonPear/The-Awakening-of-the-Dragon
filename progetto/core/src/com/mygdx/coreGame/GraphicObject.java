@@ -2,6 +2,9 @@ package com.mygdx.coreGame;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * abstract class for graphic objects (not collidable)
+ */
 public abstract class GraphicObject implements Drawalble{
     protected float x;
     protected float y;

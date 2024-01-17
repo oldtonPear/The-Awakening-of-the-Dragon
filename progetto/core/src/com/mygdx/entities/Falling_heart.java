@@ -6,6 +6,11 @@ import com.mygdx.game.GameObject;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage falling hearts to refill health
+ * @see Health
+ * @see Level
+ */
 public class Falling_heart extends GameObject{
 
     private Sprite sprite;
@@ -42,10 +47,7 @@ public class Falling_heart extends GameObject{
         sprite.setHeight(height);
     }
 
-    /**
-     * draws plane
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);
@@ -54,9 +56,7 @@ public class Falling_heart extends GameObject{
         //sb.draw(ResourceLoader.getTexture(ResourceEnum.BUBBLE), pb.x - radius, pb.y - radius, radius * 2, radius * 2);
     }
 
-    /**
-     * updates plane
-     */
+    
     @Override
     public void update(){
         if(this.getY()<-2)this.setY((float)(3.5+Math.random()*50));

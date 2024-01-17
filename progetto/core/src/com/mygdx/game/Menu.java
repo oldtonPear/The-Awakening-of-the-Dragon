@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 
+/**screen visualized when waiting to play */
 public class Menu extends Screen{
 
     private float backgroundY;

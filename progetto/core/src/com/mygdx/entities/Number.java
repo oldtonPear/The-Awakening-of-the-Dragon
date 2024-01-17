@@ -7,12 +7,22 @@ import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+* class to manage numbers on the ScoreFrame
+*@see ScoreFrame
+*@see Level
+*/
 public class Number extends GraphicObject{
     
     private Sprite sprite;
 
-    private boolean decimal;
+    
 
+    /**
+     * places the number in the correct location and with the correct sprite
+     * @param n the number you want
+     * @param decimal if the number should be decimal
+     */
     public Number(int n, boolean decimal){
         super();
         switch (n) {
@@ -52,7 +62,6 @@ public class Number extends GraphicObject{
             default:
                 break;
         }
-        this.decimal = decimal;
         if(decimal) this.setX(-0.015f);
         else this.setX(0.18f);
 		this.setY(2.62f);
@@ -82,10 +91,7 @@ public class Number extends GraphicObject{
         sprite.setHeight(height);
     }
 
-    /**
-     * draws plane
-     * @param spriteBatch
-     */
+    
     @Override
     public void draw(SpriteBatch sb) {
         sprite.draw(sb);

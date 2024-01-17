@@ -5,6 +5,11 @@ import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage bullets spawned by Stealth planes
+ * @see Stealth_plane
+ * @see Level
+ */
 public class Stealth_bullet extends Bullet{
     
     public Stealth_bullet(float planeX, float planeY) {

@@ -6,7 +6,13 @@ import com.mygdx.coreGame.Sprite;
 import com.mygdx.game.ResourceEnum;
 import com.mygdx.game.ResourceLoader;
 
+/**
+ * class to manage the frame around score
+ * @see Number
+ * @see Level
+ */
 public class ScoreFrame extends GraphicObject{
+
     private Sprite sprite;
 
     public ScoreFrame(){

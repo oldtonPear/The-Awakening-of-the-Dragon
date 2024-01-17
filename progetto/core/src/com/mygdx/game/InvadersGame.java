@@ -5,9 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.coreGame.Parameters;
 
@@ -147,8 +145,8 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 	}
 
 	/**
-	 * toggles the current state of the screen
-	 * Level-Menu
+	 * enters in the Level screen
+	 * @see Screen
 	 */
 	public void enterLevel(){
 		if(currentScreen instanceof Menu){
@@ -158,12 +156,20 @@ public class InvadersGame extends ApplicationAdapter implements InputProcessor, 
 			music_level.loop();
 		} 
 	}
+	/**
+	 * enters in the Menu screen
+	 * @see Screen
+	 */
 	public void enterMenu(){
 		music_level.stop();
 		music_menu.loop();
 		currentScreen = new Menu("Menu", camwidth * Parameters.getInverseAspectRatio());
 	}
 
+	/**
+	 * enters in the losing/winning screen
+	 * @see Screen
+	 */
 	public void winningLosingScreen(){
 		music_level.stop();
 		if(currentScreen instanceof Level){
