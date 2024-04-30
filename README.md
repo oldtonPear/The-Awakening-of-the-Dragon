@@ -9,9 +9,9 @@ Once a plane goes under the screen, it will soon respawn back to the top but the
 if you let too many planes go under the screen, you will find some trouble later because there will be more planes coming down for you.
 
 Collisions: 
-Plane -> insta-kill
-Stealth-plane-bullet -> 1 hearth
-War-plane-bullt -> 2 hearths
+ Plane -> insta-kill
+ Stealth-plane-bullet -> 1 hearth
+ War-plane-bullt -> 2 hearths
  
 Have fun with my game!
 If you have any suggestions feel free to pull on this GitHub and i'll review all the changes.
