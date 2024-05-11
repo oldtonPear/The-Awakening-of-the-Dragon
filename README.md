@@ -8,6 +8,8 @@ The goal of this game is to take down every plane for the freedom of flying free
 Once a plane goes under the screen, it will soon respawn back to the top but there is a catch:
 if you let too many planes go under the screen, you will find some trouble later because there will be more planes coming down for you.
 
+Main music: Atomic by Echo Fury
+
 Collisions:                                       
 Plane -> insta-kill.                   
 Stealth-plane-bullet -> 1 hearth.                   
