@@ -1,7 +1,7 @@
 # The Awakening of the Dragon
 An ancient dragon awakens at modern ages and the governments decides to take it down.
 Use 'a' to move left and 'd' to move right
-Press 'space' to shoot
+Press 'space' to shoot a fireball
 Press 'enter' to execute the super attack
 There is a total of 8 levels and every time you win you can proceed to the next one.
 The goal of this game is to take down every plane for the freedom of flying free again.
